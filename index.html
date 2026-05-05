@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Feynman — Interactive Science Tools &amp; Revision for GCSE &amp; KS3</title>
-<meta name="description" content="Feynman: free interactive science tools and revision resources for GCSE AQA Biology, Physics, and KS3. Zoom into cells, explore DNA, revise topic by topic, and more.">
-<meta property="og:title" content="Feynman — Science Tools &amp; Revision">
-<meta property="og:description" content="Free interactive science tools and revision resources for GCSE AQA and KS3. Made by a teacher, for classrooms and revision.">
+<title>Feynman — Interactive Science Tools, Revision &amp; Retrieval Practice</title>
+<meta name="description" content="Feynman: free interactive science tools, revision booklets, and retrieval practice for GCSE AQA Biology, Physics, and KS3.">
+<meta property="og:title" content="Feynman — Science Tools, Revision &amp; Retrieval">
+<meta property="og:description" content="Free interactive science tools, revision resources, and daily retrieval practice for GCSE AQA and KS3. Made by a teacher, for classrooms and revision.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -152,6 +152,10 @@ body{overflow-x:hidden}
   <button class="tab" data-tab="revision" role="tab" aria-selected="false" aria-controls="view-revision">
     <span class="tab-num">02</span>
     <span class="tab-label">Revision</span>
+  </button>
+  <button class="tab" data-tab="retrieval" role="tab" aria-selected="false" aria-controls="view-retrieval">
+    <span class="tab-num">03</span>
+    <span class="tab-label">Retrieval</span>
   </button>
 </nav>
 
@@ -340,6 +344,43 @@ body{overflow-x:hidden}
 
 </div><!-- /tab-view revision -->
 
+<div class="tab-view" data-view="retrieval" id="view-retrieval" role="tabpanel" aria-labelledby="tab-retrieval">
+
+<section class="hero">
+  <div class="hero-kicker">Retrieval practice</div>
+  <h1>
+    Knowledge that <em>sticks</em>,<br>
+    one short <span class="alt-3">session</span> at a time.
+  </h1>
+  <p>Retrieval practice is the most evidence-backed way to make knowledge stick. Short, daily quizzes that bring questions back at the right intervals — keeping what you've learned from slipping. Click through to start a session.</p>
+</section>
+
+<!-- RETRIEVAL APP -->
+<section class="section">
+  <div class="section-head">
+    <h2>Daily Retrieval</h2>
+    <span class="count">External</span>
+  </div>
+  <div class="tools">
+
+    <a class="tool" href="https://retrieval-app.com" target="_blank" rel="noopener noreferrer" style="--accent:var(--accent-arch)">
+      <div class="tool-meta">
+        <span class="tool-spec">External · retrieval-app.com</span>
+        <span class="tool-arrow">↗</span>
+      </div>
+      <h3 class="tool-name">Retrieval <em>App</em></h3>
+      <p class="tool-tagline">daily quizzes · spaced just right</p>
+      <p class="tool-desc">Short daily quizzes covering everything you've studied. Questions return at the right intervals so the things you nearly forgot get strengthened — and the things you know well don't waste your time.</p>
+      <div class="tool-tags">
+        <span class="tag">External link</span><span class="tag">Daily</span><span class="tag">Quizzes</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+</div><!-- /tab-view retrieval -->
+
 <footer class="footer">
   <div>
     <p>Free for any teacher or student to use.</p>
@@ -357,7 +398,7 @@ body{overflow-x:hidden}
 (function(){
   const tabs = document.querySelectorAll('.tab');
   const views = document.querySelectorAll('.tab-view');
-  const VALID = ['tools', 'revision'];
+  const VALID = ['tools', 'revision', 'retrieval'];
 
   function setActive(name, updateHash){
     if (!VALID.includes(name)) name = 'tools';
@@ -396,4 +437,3 @@ body{overflow-x:hidden}
 
 </body>
 </html>
-

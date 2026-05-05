@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interactive Biology Tools — GCSE & KS3</title>
+<meta name="description" content="Free interactive science tools for GCSE AQA Biology, KS3, and beyond. Zoom into cells, explore DNA, build force diagrams, and more.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-deep:#070a1a;--bg-mid:#0f1530;--bg-glow:#1a2050;
+  --ink:#f2f4ff;--ink-dim:#9aa3cf;--ink-faint:#6b7499;
+  --rule:rgba(255,255,255,0.12);--rule-bright:rgba(255,255,255,0.28);
+  --accent-bio:#ff6b9d;
+  --accent-dna:#c77dff;
+  --accent-cells:#4a9eff;
+  --accent-physics:#ffb84a;
+  --accent-arch:#2ee6a8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg-deep);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;min-height:100%}
+body{overflow-x:hidden}
+
+.starfield{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 30%,rgba(75,30,160,0.35),transparent 50%),radial-gradient(ellipse at 80% 70%,rgba(180,40,110,0.25),transparent 50%),radial-gradient(ellipse at 50% 50%,var(--bg-glow),var(--bg-deep) 70%);pointer-events:none}
+.stars{position:fixed;inset:0;z-index:0;opacity:0.6;background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 60% 70%,rgba(255,255,255,0.5),transparent),radial-gradient(1px 1px at 80% 20%,rgba(255,255,255,0.7),transparent),radial-gradient(1px 1px at 30% 80%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 90% 90%,rgba(255,255,255,0.6),transparent),radial-gradient(1px 1px at 10% 60%,rgba(255,255,255,0.3),transparent),radial-gradient(1px 1px at 70% 40%,rgba(255,255,255,0.5),transparent),radial-gradient(1px 1px at 45% 15%,rgba(255,255,255,0.7),transparent),radial-gradient(1px 1px at 15% 45%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 85% 55%,rgba(255,255,255,0.6),transparent);background-size:800px 800px;animation:drift 120s linear infinite;pointer-events:none}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(-800px,-800px)}}
+
+.page{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:64px 56px 120px}
+
+/* Header */
+.masthead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:96px;flex-wrap:wrap;gap:24px}
+.brand{display:flex;flex-direction:column;gap:4px}
+.brand-mark{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-dim)}
+.brand-name{font-family:'Instrument Serif',serif;font-size:28px;line-height:1;color:var(--ink);font-weight:400;letter-spacing:-0.01em;margin-top:8px}
+.brand-name em{font-style:italic;color:var(--accent-dna)}
+.meta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint);text-align:right;line-height:1.7}
+.meta .pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-arch);box-shadow:0 0 8px var(--accent-arch);margin-right:7px;animation:pulse 2s ease-in-out infinite;vertical-align:middle}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+/* Hero */
+.hero{margin-bottom:88px;max-width:900px}
+.hero-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:24px;display:flex;align-items:center;gap:12px}
+.hero-kicker::before{content:'';width:32px;height:1px;background:var(--accent-dna)}
+.hero h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(44px,7vw,86px);line-height:0.98;letter-spacing:-0.02em;color:var(--ink);margin-bottom:28px}
+.hero h1 em{font-style:italic;color:var(--accent-dna)}
+.hero h1 .alt-1{color:var(--accent-bio)}
+.hero h1 .alt-2{color:var(--accent-cells)}
+.hero h1 .alt-3{color:var(--accent-arch)}
+.hero p{font-size:clamp(15px,1.4vw,17px);line-height:1.6;color:var(--ink-dim);max-width:62ch;font-weight:300}
+
+/* Section heading */
+.section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:32px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.section-head h2{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-dim);font-weight:500}
+.section-head .count{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--ink-faint)}
+
+/* Tool grid */
+.section{margin-bottom:80px}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.tool{background:rgba(15,21,48,0.45);padding:36px 32px 32px;text-decoration:none;color:inherit;display:flex;flex-direction:column;min-height:280px;position:relative;transition:background 0.3s ease;overflow:hidden}
+.tool::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--accent,var(--ink-dim));opacity:0;transition:opacity 0.3s ease}
+.tool:hover{background:rgba(30,40,90,0.7)}
+.tool:hover::before{opacity:1}
+.tool:hover .tool-arrow{transform:translate(6px,-6px);opacity:1}
+.tool:hover .tool-name{color:var(--accent,var(--ink))}
+
+.tool-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint)}
+.tool-spec{color:var(--accent,var(--ink-dim));border:1px solid var(--accent,var(--ink-dim));border-color:rgba(255,255,255,0.18);padding:4px 9px;border-radius:2px;opacity:0.85}
+.tool-arrow{font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--accent,var(--ink-dim));opacity:0.5;transition:all 0.3s ease;display:inline-block}
+
+.tool-name{font-family:'Instrument Serif',serif;font-weight:400;font-size:34px;line-height:1.05;color:var(--ink);margin-top:60px;margin-bottom:6px;letter-spacing:-0.01em;transition:color 0.3s ease}
+.tool-name em{font-style:italic;color:var(--accent,var(--ink-dim))}
+.tool-tagline{font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:var(--ink-dim);margin-bottom:18px}
+.tool-desc{font-size:13.5px;line-height:1.55;color:var(--ink-dim);font-weight:300;max-width:42ch}
+
+.tool-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px}
+.tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);padding:3px 8px;border:1px solid var(--rule);border-radius:2px}
+
+/* Coming soon */
+.tool.coming{opacity:0.55;cursor:default;pointer-events:none}
+.tool.coming .tool-arrow{display:none}
+.tool.coming::after{content:'COMING SOON';position:absolute;top:14px;right:14px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--ink-faint);padding:3px 8px;border:1px dashed var(--rule);border-radius:2px}
+
+/* Footer */
+.footer{margin-top:120px;padding-top:36px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint)}
+.footer p{line-height:1.7}
+.footer-credit{font-family:'Instrument Serif',serif;font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;color:var(--ink-dim)}
+
+@media (max-width:760px){
+  .page{padding:40px 24px 80px}
+  .masthead{margin-bottom:56px}
+  .hero{margin-bottom:64px}
+  .tools{grid-template-columns:1fr}
+  .tool{min-height:220px;padding:28px 24px}
+  .tool-name{font-size:28px;margin-top:40px}
+  .meta{text-align:left}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+
+<div class="starfield"></div>
+<div class="stars"></div>
+
+<main class="page">
+
+<header class="masthead">
+  <div class="brand">
+    <span class="brand-mark">Adam Field · Science Teacher</span>
+    <span class="brand-name">Interactive <em>Science</em> Tools</span>
+  </div>
+  <div class="meta">
+    <span class="pulse"></span>Live · Free to use<br>
+    Built for classroom &amp; revision<br>
+    AQA · KS3 · GCSE
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-kicker">A growing collection</div>
+  <h1>
+    Zoom into <em>cells</em>, unwind <span class="alt-1">DNA</span>,<br>
+    build <span class="alt-2">force diagrams</span>,<br>
+    and explore <span class="alt-3">passive cooling</span>.
+  </h1>
+  <p>A small library of interactive web tools for science teachers and students. Built to project in lessons, work on a Chromebook for revision, and align tightly to the AQA specification. No accounts. No ads. Just open and click.</p>
+</section>
+
+<!-- BIOLOGY -->
+<section class="section">
+  <div class="section-head">
+    <h2>Biology</h2>
+    <span class="count">03 tools</span>
+  </div>
+  <div class="tools">
+
+    <a class="tool" href="cell-zoom.html" style="--accent:var(--accent-bio)">
+      <div class="tool-meta">
+        <span class="tool-spec">AQA 4.1.1</span>
+        <span class="tool-arrow">↗</span>
+      </div>
+      <h3 class="tool-name">Zoom into <em>the Cell</em></h3>
+      <p class="tool-tagline">cell → nucleus → DNA</p>
+      <p class="tool-desc">A continuous zoom from a whole cell down to the bases of DNA. Toggle between animal, plant, and bacterial cells. Click any organelle for GCSE-level detail.</p>
+      <div class="tool-tags">
+        <span class="tag">KS3</span><span class="tag">GCSE</span><span class="tag">Combined</span><span class="tag">Triple</span>
+      </div>
+    </a>
+
+    <a class="tool" href="dna-zoom.html" style="--accent:var(--accent-dna)">
+      <div class="tool-meta">
+        <span class="tool-spec">AQA 6.1.5</span>
+        <span class="tool-arrow">↗</span>
+      </div>
+      <h3 class="tool-name">Zoom into <em>DNA</em></h3>
+      <p class="tool-tagline">a double helix, in five steps</p>
+      <p class="tool-desc">Chromosome → double helix → gene → nucleotide → base pairs. Built for Triple Biology. Click each part of a nucleotide to see what it does and why it matters in the exam.</p>
+      <div class="tool-tags">
+        <span class="tag">GCSE</span><span class="tag">Triple Biology</span>
+      </div>
+    </a>
+
+    <a class="tool coming" style="--accent:var(--accent-cells)">
+      <div class="tool-meta">
+        <span class="tool-spec">AQA 4.1.2</span>
+      </div>
+      <h3 class="tool-name">Specialised <em>Cells</em></h3>
+      <p class="tool-tagline">six cell types, six adaptations</p>
+      <p class="tool-desc">Sperm, egg, ciliated, root hair, nerve, red blood. Click adaptation hotspots to learn how structure links to function — with mark-scheme-aware exam tips.</p>
+      <div class="tool-tags">
+        <span class="tag">GCSE</span><span class="tag">Combined</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- PHYSICS -->
+<section class="section">
+  <div class="section-head">
+    <h2>Physics</h2>
+    <span class="count">01 tool</span>
+  </div>
+  <div class="tools">
+
+    <a class="tool coming" style="--accent:var(--accent-physics)">
+      <div class="tool-meta">
+        <span class="tool-spec">AQA 5.1</span>
+      </div>
+      <h3 class="tool-name">Force <em>Diagram Builder</em></h3>
+      <p class="tool-tagline">drag, label, balance</p>
+      <p class="tool-desc">Build free-body diagrams for objects in motion or equilibrium. Drag force arrows, label them, and see whether the resultant is zero.</p>
+      <div class="tool-tags">
+        <span class="tag">KS3</span><span class="tag">GCSE</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ARCHITECTURE / ENVIRONMENTAL -->
+<section class="section">
+  <div class="section-head">
+    <h2>Environmental Design</h2>
+    <span class="count">01 tool</span>
+  </div>
+  <div class="tools">
+
+    <a class="tool coming" style="--accent:var(--accent-arch)">
+      <div class="tool-meta">
+        <span class="tool-spec">Bioclimatic</span>
+      </div>
+      <h3 class="tool-name">Desert <em>Building Explorer</em></h3>
+      <p class="tool-tagline">passive cooling, in 3D</p>
+      <p class="tool-desc">A seven-floor apartment in a hot climate. Toggle passive cooling features — shading, ventilation, tree-channelled wind — and watch the indoor temperature respond in real time.</p>
+      <div class="tool-tags">
+        <span class="tag">3D</span><span class="tag">Three.js</span><span class="tag">Cross-curricular</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<footer class="footer">
+  <div>
+    <p>Free for any teacher or student to use.</p>
+    <p>No tracking · No accounts · No ads</p>
+  </div>
+  <div class="footer-credit">
+    Made with care for classrooms.
+  </div>
+</footer>
+
+</main>
+
+</body>
+</html>

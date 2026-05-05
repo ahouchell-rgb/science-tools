@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Feynman — Interactive Science Tools for GCSE &amp; KS3</title>
-<meta name="description" content="Feynman: free interactive science tools for GCSE AQA Biology, Physics, and KS3. Zoom into cells, explore DNA, build force diagrams, and more.">
-<meta property="og:title" content="Feynman — Interactive Science Tools">
-<meta property="og:description" content="Free interactive science tools for GCSE AQA and KS3. Made by a teacher, for classrooms and revision.">
+<title>Feynman — Interactive Science Tools &amp; Revision for GCSE &amp; KS3</title>
+<meta name="description" content="Feynman: free interactive science tools and revision resources for GCSE AQA Biology, Physics, and KS3. Zoom into cells, explore DNA, revise topic by topic, and more.">
+<meta property="og:title" content="Feynman — Science Tools &amp; Revision">
+<meta property="og:description" content="Free interactive science tools and revision resources for GCSE AQA and KS3. Made by a teacher, for classrooms and revision.">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,6 +103,26 @@ body{overflow-x:hidden}
 @media (prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important}
 }
+
+/* Tabs (top-level nav between Tools and Revision) */
+.tabs{display:flex;gap:48px;align-items:flex-end;margin-bottom:88px;border-bottom:1px solid var(--rule);padding-bottom:0}
+.tab{background:none;border:none;cursor:pointer;padding:14px 0 16px;display:flex;align-items:baseline;gap:14px;color:var(--ink-faint);font-family:inherit;position:relative;transition:color 0.25s ease}
+.tab:hover{color:var(--ink-dim)}
+.tab.active{color:var(--ink)}
+.tab.active::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)}
+.tab-num{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--ink-faint);transition:color 0.25s ease}
+.tab.active .tab-num{color:var(--accent-dna)}
+.tab-label{font-family:'Instrument Serif',serif;font-size:24px;line-height:1;letter-spacing:-0.005em;font-weight:400}
+
+.tab-view{display:none}
+.tab-view.active{display:block;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+@media (max-width:760px){
+  .tabs{gap:28px;margin-bottom:48px}
+  .tab-label{font-size:20px}
+  .tab{padding:10px 0 12px}
+}
 </style>
 </head>
 <body>
@@ -115,7 +135,7 @@ body{overflow-x:hidden}
 <header class="masthead">
   <div class="brand">
     <span class="brand-mark">Feynman · Interactive Science Resources</span>
-    <span class="brand-name">Interactive <em>Science</em> Tools</span>
+    <span class="brand-name">Interactive <em>Science</em></span>
   </div>
   <div class="meta">
     <span class="pulse"></span>Live · Free to use<br>
@@ -123,6 +143,19 @@ body{overflow-x:hidden}
     AQA · KS3 · GCSE
   </div>
 </header>
+
+<nav class="tabs" role="tablist" aria-label="Resource categories">
+  <button class="tab active" data-tab="tools" role="tab" aria-selected="true" aria-controls="view-tools">
+    <span class="tab-num">01</span>
+    <span class="tab-label">Tools</span>
+  </button>
+  <button class="tab" data-tab="revision" role="tab" aria-selected="false" aria-controls="view-revision">
+    <span class="tab-num">02</span>
+    <span class="tab-label">Revision</span>
+  </button>
+</nav>
+
+<div class="tab-view active" data-view="tools" id="view-tools" role="tabpanel" aria-labelledby="tab-tools">
 
 <section class="hero">
   <div class="hero-kicker">A growing collection</div>
@@ -244,6 +277,45 @@ body{overflow-x:hidden}
   </div>
 </section>
 
+</div><!-- /tab-view tools -->
+
+<div class="tab-view" data-view="revision" id="view-revision" role="tabpanel" aria-labelledby="tab-revision">
+
+<section class="hero">
+  <div class="hero-kicker">Self-paced revision</div>
+  <h1>
+    <em>Bitesize</em> revision, with answers<br>
+    you can <span class="alt-1">hide</span> and <span class="alt-2">reveal</span>.
+  </h1>
+  <p>Topic-shaped revision booklets, sized for one sitting. Hide-and-reveal answers, embedded interactives, and bitesize summaries — spec-aligned and built to work on a phone the night before, or a Chromebook in tutor time. No login. No tracking.</p>
+</section>
+
+<!-- BIOLOGY REVISION -->
+<section class="section">
+  <div class="section-head">
+    <h2>Biology Revision</h2>
+    <span class="count">01 resource</span>
+  </div>
+  <div class="tools">
+
+    <a class="tool" href="genetics-revision.html" style="--accent:var(--accent-dna)">
+      <div class="tool-meta">
+        <span class="tool-spec">Y8 · B9 Inheritance</span>
+        <span class="tool-arrow">↗</span>
+      </div>
+      <h3 class="tool-name">Genetics, <em>bitesize</em></h3>
+      <p class="tool-tagline">five short topics · hide-reveal answers</p>
+      <p class="tool-desc">DNA &amp; chromosomes, variation, DNA structure, Punnett squares, and genetic disorders. Each topic is a bitesize summary with hinge questions and longer questions whose answers reveal on click. Embeds the cell-zoom and DNA-zoom interactives at the right moments.</p>
+      <div class="tool-tags">
+        <span class="tag">KS3</span><span class="tag">Year 8</span><span class="tag">Springboard</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+</div><!-- /tab-view revision -->
+
 <footer class="footer">
   <div>
     <p>Free for any teacher or student to use.</p>
@@ -256,6 +328,47 @@ body{overflow-x:hidden}
 </footer>
 
 </main>
+
+<script>
+(function(){
+  const tabs = document.querySelectorAll('.tab');
+  const views = document.querySelectorAll('.tab-view');
+  const VALID = ['tools', 'revision'];
+
+  function setActive(name, updateHash){
+    if (!VALID.includes(name)) name = 'tools';
+    tabs.forEach(t => {
+      const on = t.dataset.tab === name;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    views.forEach(v => v.classList.toggle('active', v.dataset.view === name));
+    if (updateHash) {
+      const target = name === 'tools' ? ' ' : '#' + name;
+      // For 'tools' (default), strip the hash; for 'revision', add it
+      if (name === 'tools') {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      } else {
+        history.replaceState(null, '', '#' + name);
+      }
+    }
+  }
+
+  tabs.forEach(t => {
+    t.addEventListener('click', () => setActive(t.dataset.tab, true));
+  });
+
+  // Read hash on load — supports deep-linking like index.html#revision
+  const initial = (window.location.hash || '').replace('#', '');
+  if (initial) setActive(initial, false);
+
+  // React to back/forward navigation
+  window.addEventListener('hashchange', () => {
+    const h = (window.location.hash || '').replace('#', '') || 'tools';
+    setActive(h, false);
+  });
+})();
+</script>
 
 </body>
 </html>

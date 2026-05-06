@@ -90,16 +90,16 @@
   /* MAIN GRID */
   .main {
     display: grid;
-    grid-template-columns: 1fr 340px;
+    grid-template-columns: 1fr 280px;
     flex: 1;
     min-height: 0;
   }
   .canvas-area {
-    padding: 24px;
+    padding: 18px;
     background: #fff;
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 12px;
     min-height: 0;
   }
   .scenario-strap {
@@ -118,7 +118,7 @@
   }
   .canvas-wrap {
     flex: 1;
-    min-height: 460px;
+    min-height: 0;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -137,24 +137,24 @@
   .controls {
     background: var(--soft-blue);
     border-left: 2px solid var(--grid);
-    padding: 24px;
+    padding: 16px 18px;
     overflow-y: auto;
   }
   .controls .panel-label {
-    font-size: 11px;
-    letter-spacing: 3px;
+    font-size: 10px;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   .controls .panel-title {
-    font-size: 22px;
+    font-size: 17px;
     color: var(--navy);
     font-weight: 700;
-    margin-bottom: 22px;
+    margin-bottom: 16px;
   }
   .control-group {
-    margin-bottom: 22px;
+    margin-bottom: 16px;
   }
   .control-group .row {
     display: flex;
@@ -188,19 +188,19 @@
   }
   button.action {
     width: 100%;
-    padding: 12px;
+    padding: 8px 12px;
     background: var(--navy);
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-family: inherit;
-    font-size: 13px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     transition: background 0.15s;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
   button.action:hover { background: #2A357A; }
   button.action.secondary {
@@ -217,25 +217,25 @@
   .readouts {
     background: #fff;
     border: 1px solid var(--grid);
-    padding: 14px 16px;
+    padding: 10px 12px;
     border-radius: 4px;
-    margin-top: 12px;
+    margin-top: 10px;
   }
   .readouts h4 {
-    font-size: 10px;
-    letter-spacing: 3px;
+    font-size: 9px;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
     color: var(--muted);
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     font-weight: 700;
   }
   .readout {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    padding: 8px 0;
+    padding: 5px 0;
     border-bottom: 1px solid var(--grid);
-    font-size: 13px;
+    font-size: 12px;
   }
   .readout:last-child { border-bottom: none; }
   .readout .lab { color: var(--muted); }
@@ -248,11 +248,11 @@
   .readout .val.accent { color: var(--accent); }
 
   .legend {
-    margin-top: 18px;
+    margin-top: 12px;
     font-size: 11px;
     color: var(--muted);
-    line-height: 1.55;
-    padding: 10px 14px;
+    line-height: 1.5;
+    padding: 8px 12px;
     background: #fff;
     border: 1px dashed var(--grid);
     border-radius: 4px;
@@ -261,10 +261,10 @@
 
   /* FOOTER */
   .footer {
-    padding: 10px 32px;
+    padding: 6px 18px;
     background: var(--warm);
     color: var(--muted);
-    font-size: 10px;
+    font-size: 9px;
     text-align: right;
     border-top: 1px solid var(--grid);
     letter-spacing: 1.5px;
@@ -272,10 +272,30 @@
     flex-shrink: 0;
   }
 
-  @media (max-width: 900px) {
-    .main { grid-template-columns: 1fr; }
-    .controls { border-left: none; border-top: 2px solid var(--grid); }
+  @media (max-width: 560px) {
+    .main {
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+    .controls {
+      border-left: none;
+      border-top: 2px solid var(--grid);
+      max-height: 38vh;
+      padding: 12px 14px;
+    }
+    .controls .panel-title { font-size: 15px; margin-bottom: 10px; }
+    .control-group { margin-bottom: 10px; }
+    .canvas-area { padding: 10px 14px; }
+    .scenario-strap { font-size: 12px; padding: 8px 12px; line-height: 1.4; }
   }
+
+  /* Embed mode: when ?embed=1 is in the URL, hide chrome so the
+     interactive can sit cleanly inside an iframe in a revision booklet. */
+  body.embed .header { display: none; }
+  body.embed .mode-tabs { display: none; }
+  body.embed .scenario-strap { display: none; }
+  body.embed .footer { display: none; }
+  body.embed .canvas-area { padding: 12px; }
 </style>
 </head>
 <body>
@@ -1234,6 +1254,48 @@ function fitCanvas() {
 window.addEventListener('resize', fitCanvas);
 
 /* ================================================================
+   URL PARAM HANDLING
+   - ?mode=states|heating|diffusion|pressure  → start on that tab
+   - #states|#heating|#diffusion|#pressure    → same, via hash
+   - ?embed=1                                  → hide header + tab bar
+   Both work; hash takes priority over query string if both are set.
+   ================================================================ */
+function getHashParams() {
+  // Allow params via hash too (e.g. for data: URLs which can't carry query strings).
+  // Supports both "#heating" (bare mode) and "#mode=heating&embed=1".
+  const raw = (window.location.hash || '').replace(/^#/, '');
+  if (!raw) return {};
+  if (raw.indexOf('=') === -1) return { mode: raw.toLowerCase() };
+  const out = {};
+  raw.split('&').forEach(seg => {
+    const [k, v] = seg.split('=');
+    if (k) out[k.toLowerCase()] = (v || '').toLowerCase();
+  });
+  return out;
+}
+
+function getInitialMode() {
+  const valid = ['states', 'heating', 'diffusion', 'pressure'];
+  const hashParams = getHashParams();
+  if (hashParams.mode && valid.includes(hashParams.mode)) return hashParams.mode;
+  const params = new URLSearchParams(window.location.search);
+  const m = (params.get('mode') || '').toLowerCase();
+  if (valid.includes(m)) return m;
+  return 'states';
+}
+
+function isEmbedMode() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('embed') === '1' || params.get('embed') === 'true') return true;
+  const hashParams = getHashParams();
+  return hashParams.embed === '1' || hashParams.embed === 'true';
+}
+
+if (isEmbedMode()) {
+  document.body.classList.add('embed');
+}
+
+/* ================================================================
    BOOT
    ================================================================ */
 fitCanvas();
@@ -1241,8 +1303,21 @@ initStates();
 initHeating();
 initDiffusion();
 initPressure();
-buildControls();
+const startMode = getInitialMode();
+if (startMode !== 'states') {
+  setMode(startMode);
+} else {
+  buildControls();
+}
+
+// Keep tab in sync if hash changes (back/forward)
+window.addEventListener('hashchange', () => {
+  const m = getInitialMode();
+  if (m !== S.mode) setMode(m);
+});
+
 requestAnimationFrame(loop);
 </script>
 </body>
 </html>
+

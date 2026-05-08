@@ -283,8 +283,134 @@ html,body{height:100%;overflow:hidden;background:var(--bg-deep);color:var(--ink)
 </svg>
 </div>
 
-<!-- LEVEL 3: NUCLEOTIDE -->
+<!-- LEVEL 3: POLYMER / DNA STRAND -->
 <div class="layer" data-level="3">
+<svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<radialGradient id="polyPhos" cx="35%" cy="35%">
+<stop offset="0%" stop-color="#ffd48a"/>
+<stop offset="100%" stop-color="#ff8c2a"/>
+</radialGradient>
+<linearGradient id="polySugar" x1="0%" y1="0%" x2="100%" y2="100%">
+<stop offset="0%" stop-color="#e0b5ff"/>
+<stop offset="100%" stop-color="#9d5de0"/>
+</linearGradient>
+<filter id="polyHighlight"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+
+<!-- Heading -->
+<text x="500" y="105" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="11" fill="#9aa3cf" letter-spacing="0.3em">A POLYMER OF NUCLEOTIDES</text>
+<text x="500" y="135" text-anchor="middle" font-family="Instrument Serif,serif" font-style="italic" font-size="17" fill="#f2f4ff">DNA strands are long chains of repeating units</text>
+
+<!-- Strand labels -->
+<text x="140" y="172" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9aa3cf" letter-spacing="0.18em">STRAND 1</text>
+<text x="860" y="172" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9aa3cf" letter-spacing="0.18em">STRAND 2</text>
+
+<g>
+
+<!-- PAIR 1 -->
+<circle cx="140" cy="200" r="13" fill="url(#polyPhos)"/>
+<line x1="140" y1="213" x2="140" y2="220" stroke="#ff8c2a" stroke-width="2.5"/>
+<polygon points="140,222 153,231 148,247 132,247 127,231" fill="url(#polySugar)"/>
+<line x1="153" y1="239" x2="200" y2="239" stroke="#9aa3cf" stroke-width="1.5" opacity="0.5"/>
+<rect x="200" y="225" width="290" height="28" rx="3" fill="#5a6a8a" opacity="0.5"/>
+<rect x="510" y="225" width="290" height="28" rx="3" fill="#5a6a8a" opacity="0.5"/>
+<line x1="800" y1="239" x2="847" y2="239" stroke="#9aa3cf" stroke-width="1.5" opacity="0.5"/>
+<polygon points="860,222 873,231 868,247 852,247 847,231" fill="url(#polySugar)"/>
+<line x1="860" y1="213" x2="860" y2="220" stroke="#ff8c2a" stroke-width="2.5"/>
+<circle cx="860" cy="200" r="13" fill="url(#polyPhos)"/>
+<line x1="140" y1="247" x2="140" y2="290" stroke="#ff8c2a" stroke-width="2.5"/>
+<line x1="860" y1="247" x2="860" y2="290" stroke="#ff8c2a" stroke-width="2.5"/>
+
+<!-- PAIR 2 -->
+<circle cx="140" cy="290" r="13" fill="url(#polyPhos)"/>
+<line x1="140" y1="303" x2="140" y2="310" stroke="#ff8c2a" stroke-width="2.5"/>
+<polygon points="140,312 153,321 148,337 132,337 127,321" fill="url(#polySugar)"/>
+<line x1="153" y1="329" x2="200" y2="329" stroke="#9aa3cf" stroke-width="1.5" opacity="0.5"/>
+<rect x="200" y="315" width="290" height="28" rx="3" fill="#5a6a8a" opacity="0.5"/>
+<rect x="510" y="315" width="290" height="28" rx="3" fill="#5a6a8a" opacity="0.5"/>
+<line x1="800" y1="329" x2="847" y2="329" stroke="#9aa3cf" stroke-width="1.5" opacity="0.5"/>
+<polygon points="860,312 873,321 868,337 852,337 847,321" fill="url(#polySugar)"/>
+<line x1="860" y1="303" x2="860" y2="310" stroke="#ff8c2a" stroke-width="2.5"/>
+<circle cx="860" cy="290" r="13" fill="url(#polyPhos)"/>
+<line x1="140" y1="337" x2="140" y2="380" stroke="#ff8c2a" stroke-width="2.5"/>
+<line x1="860" y1="337" x2="860" y2="380" stroke="#ff8c2a" stroke-width="2.5"/>
+
+<!-- PAIR 3 — HIGHLIGHTED (left nucleotide is the 'one' we'll zoom into next) -->
+<g filter="url(#polyHighlight)">
+<circle cx="140" cy="380" r="14" fill="url(#polyPhos)"/>
+<line x1="140" y1="394" x2="140" y2="400" stroke="#ff8c2a" stroke-width="3"/>
+<polygon points="140,402 154,412 149,428 131,428 126,412" fill="url(#polySugar)"/>
+<line x1="154" y1="420" x2="200" y2="420" stroke="#f2f4ff" stroke-width="1.8" opacity="0.7"/>
+<rect x="200" y="406" width="290" height="28" rx="3" fill="#2ee6a8" opacity="0.85"/>
+</g>
+<rect x="510" y="406" width="290" height="28" rx="3" fill="#ff5a7f" opacity="0.4"/>
+<line x1="800" y1="420" x2="847" y2="420" stroke="#9aa3cf" stroke-width="1.5" opacity="0.5"/>
+<polygon points="860,402 873,411 868,427 852,427 847,411" fill="url(#polySugar)" opacity="0.7"/>
+<line x1="860" y1="393" x2="860" y2="400" stroke="#ff8c2a" stroke-width="2.5" opacity="0.7"/>
+<circle cx="860" cy="380" r="13" fill="url(#polyPhos)" opacity="0.7"/>
+
+<!-- Highlight box around the singled-out nucleotide -->
+<rect x="105" y="368" width="400" height="68" rx="4" fill="none" stroke="#ffd48a" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+<line x1="140" y1="428" x2="140" y2="470" stroke="#ff8c2a" stroke-width="2.5"/>
+<line x1="860" y1="427" x2="860" y2="470" stroke="#ff8c2a" stroke-width="2.5" opacity="0.7"/>
+
+<!-- PAIR 4 -->
+<circle cx="140" cy="470" r="13" fill="url(#polyPhos)"/>
+<line x1="140" y1="483" x2="140" y2="490" stroke="#ff8c2a" stroke-width="2.5"/>
+<polygon points="140,492 153,501 148,517 132,517 127,501" fill="url(#polySugar)"/>
+<line x1="153" y1="509" x2="200" y2="509" stroke="#9aa3cf" stroke-width="1.5" opacity="0.5"/>
+<rect x="200" y="495" width="290" height="28" rx="3" fill="#5a6a8a" opacity="0.5"/>
+<rect x="510" y="495" width="290" height="28" rx="3" fill="#5a6a8a" opacity="0.5"/>
+<line x1="800" y1="509" x2="847" y2="509" stroke="#9aa3cf" stroke-width="1.5" opacity="0.5"/>
+<polygon points="860,492 873,501 868,517 852,517 847,501" fill="url(#polySugar)"/>
+<line x1="860" y1="483" x2="860" y2="490" stroke="#ff8c2a" stroke-width="2.5"/>
+<circle cx="860" cy="470" r="13" fill="url(#polyPhos)"/>
+<line x1="140" y1="517" x2="140" y2="560" stroke="#ff8c2a" stroke-width="2.5"/>
+<line x1="860" y1="517" x2="860" y2="560" stroke="#ff8c2a" stroke-width="2.5"/>
+
+<!-- PAIR 5 -->
+<circle cx="140" cy="560" r="13" fill="url(#polyPhos)"/>
+<line x1="140" y1="573" x2="140" y2="580" stroke="#ff8c2a" stroke-width="2.5"/>
+<polygon points="140,582 153,591 148,607 132,607 127,591" fill="url(#polySugar)"/>
+<line x1="153" y1="599" x2="200" y2="599" stroke="#9aa3cf" stroke-width="1.5" opacity="0.5"/>
+<rect x="200" y="585" width="290" height="28" rx="3" fill="#5a6a8a" opacity="0.5"/>
+<rect x="510" y="585" width="290" height="28" rx="3" fill="#5a6a8a" opacity="0.5"/>
+<line x1="800" y1="599" x2="847" y2="599" stroke="#9aa3cf" stroke-width="1.5" opacity="0.5"/>
+<polygon points="860,582 873,591 868,607 852,607 847,591" fill="url(#polySugar)"/>
+<line x1="860" y1="573" x2="860" y2="580" stroke="#ff8c2a" stroke-width="2.5"/>
+<circle cx="860" cy="560" r="13" fill="url(#polyPhos)"/>
+
+<!-- Continuation -->
+<line x1="140" y1="607" x2="140" y2="640" stroke="#ff8c2a" stroke-width="2.5" opacity="0.5"/>
+<line x1="860" y1="607" x2="860" y2="640" stroke="#ff8c2a" stroke-width="2.5" opacity="0.5"/>
+<text x="140" y="668" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="20" fill="#9aa3cf" opacity="0.6">⋮</text>
+<text x="860" y="668" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="20" fill="#9aa3cf" opacity="0.6">⋮</text>
+
+</g>
+
+<!-- Annotation pointer -->
+<g>
+<line x1="510" y1="402" x2="600" y2="365" stroke="#ffd48a" stroke-width="1.5" opacity="0.85"/>
+<line x1="600" y1="365" x2="710" y2="365" stroke="#ffd48a" stroke-width="1.5" opacity="0.85"/>
+<text x="722" y="362" font-family="IBM Plex Mono,monospace" font-size="12" fill="#ffd48a" letter-spacing="0.2em">ONE NUCLEOTIDE</text>
+<text x="722" y="380" font-family="IBM Plex Mono,monospace" font-size="9" fill="#9aa3cf" letter-spacing="0.15em">PHOSPHATE + SUGAR + BASE</text>
+</g>
+
+<!-- Footer + key -->
+<g>
+<text x="500" y="745" text-anchor="middle" font-family="Instrument Serif,serif" font-style="italic" font-size="22" fill="#ff9d4d">repeating units · linked by their backbones</text>
+<g transform="translate(300,790)"><circle cx="10" cy="10" r="8" fill="url(#polyPhos)"/><text x="26" y="14" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9aa3cf" letter-spacing="0.15em">PHOSPHATE</text></g>
+<g transform="translate(440,790)"><polygon points="10,1 19,8 16,18 4,18 1,8" fill="url(#polySugar)"/><text x="26" y="14" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9aa3cf" letter-spacing="0.15em">SUGAR</text></g>
+<g transform="translate(550,790)"><rect x="0" y="2" width="18" height="14" rx="2" fill="#5a6a8a" opacity="0.7"/><text x="26" y="14" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9aa3cf" letter-spacing="0.15em">BASE</text></g>
+<g transform="translate(640,790)"><line x1="0" y1="10" x2="22" y2="10" stroke="#ff8c2a" stroke-width="2.5"/><text x="30" y="14" font-family="IBM Plex Mono,monospace" font-size="10" fill="#9aa3cf" letter-spacing="0.15em">BACKBONE</text></g>
+</g>
+</svg>
+</div>
+
+<!-- LEVEL 4: NUCLEOTIDE -->
+<div class="layer" data-level="4">
 <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
 <defs>
 <radialGradient id="phosGrad" cx="35%" cy="35%">
@@ -359,8 +485,8 @@ html,body{height:100%;overflow:hidden;background:var(--bg-deep);color:var(--ink)
 </svg>
 </div>
 
-<!-- LEVEL 4: BASE PAIRS -->
-<div class="layer" data-level="4">
+<!-- LEVEL 5: BASE PAIRS -->
+<div class="layer" data-level="5">
 <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg">
 <defs>
 <linearGradient id="bpSugar" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -483,7 +609,7 @@ html,body{height:100%;overflow:hidden;background:var(--bg-deep);color:var(--ink)
 </div>
 
 <div class="level-name">
-<span class="num" id="levelNum">01 / 05</span>
+<span class="num" id="levelNum">01 / 06</span>
 <span class="current" id="levelCurrent">Chromosome</span>
 </div>
 
@@ -505,8 +631,9 @@ html,body{height:100%;overflow:hidden;background:var(--bg-deep);color:var(--ink)
 <button class="dot" data-level="2" aria-label="Level 3"></button>
 <button class="dot" data-level="3" aria-label="Level 4"></button>
 <button class="dot" data-level="4" aria-label="Level 5"></button>
+<button class="dot" data-level="5" aria-label="Level 6"></button>
 </div>
-<span class="progress-label">Level <span id="levelLabel">1</span> of 5</span>
+<span class="progress-label">Level <span id="levelLabel">1</span> of 6</span>
 </div>
 
 <div class="controls">
@@ -577,6 +704,17 @@ const levels = [
   },
   {
     id: 3,
+    name: 'DNA Strand',
+    scale: '≈ 1.7 nm long',
+    spec: '6.1.5',
+    accent: '#ff9d4d',
+    title: 'DNA Strand',
+    tagSmall: 'a polymer of nucleotides',
+    desc: 'DNA is a polymer — a long chain of repeating units called nucleotides. Each nucleotide links to the next through its sugar and phosphate, forming a continuous backbone. Two strands run alongside each other, joined in the middle by their bases.',
+    hint: 'One nucleotide = one phosphate + one sugar + one base'
+  },
+  {
+    id: 4,
     name: 'Nucleotide',
     scale: '≈ 0.3 nm',
     spec: '6.1.5',
@@ -587,7 +725,7 @@ const levels = [
     hint: 'Tap any part to learn more'
   },
   {
-    id: 4,
+    id: 5,
     name: 'Base Pairs',
     scale: '≈ 0.34 nm rise',
     spec: '6.1.5',
@@ -737,7 +875,7 @@ function render(direction) {
   // HUD
   scaleValue.textContent = level.scale;
   scaleValue.style.color = level.accent;
-  levelNum.textContent = String(currentLevel + 1).padStart(2, '0') + ' / 05';
+  levelNum.textContent = String(currentLevel + 1).padStart(2, '0') + ' / 06';
   levelCurrent.textContent = level.name;
   levelLabel.textContent = currentLevel + 1;
   specChip.textContent = level.spec;
@@ -846,7 +984,7 @@ window.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') { closePopup(); e.preventDefault(); }
     return;
   }
-  if (e.key >= '1' && e.key <= '5') {
+  if (e.key >= '1' && e.key <= '6') {
     goTo(parseInt(e.key, 10) - 1);
     return;
   }
@@ -889,3 +1027,4 @@ render('in');
 </script>
 </body>
 </html>
+

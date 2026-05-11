@@ -13,122 +13,252 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg-deep:#070a1a;--bg-mid:#0f1530;--bg-glow:#1a2050;
-  --ink:#f2f4ff;--ink-dim:#9aa3cf;--ink-faint:#6b7499;
-  --rule:rgba(255,255,255,0.12);--rule-bright:rgba(255,255,255,0.28);
-  --accent-bio:#ff6b9d;
-  --accent-dna:#c77dff;
-  --accent-cells:#4a9eff;
-  --accent-physics:#ffb84a;
-  --accent-arch:#2ee6a8;
+  /* Pale palette */
+  --bg:#F5EFE3;
+  --bg-warm:#EDE5D2;
+  --paper:#FBF7EC;
+  --card:#FFFFFF;
+  --ink:#1a1d3a;        /* navy, the dominant text colour */
+  --ink-soft:#3a3f5e;
+  --ink-mute:#6b7290;
+  --ink-faint:#8a91a8;
+  --rule:#D8CFB8;
+  --rule-soft:#E8DFCB;
+  /* Accents */
+  --accent-bio:#C84A6D;       /* deeper pink so it reads on cream */
+  --accent-dna:#7E4FB8;       /* the purple from the hero border */
+  --accent-cells:#3672C2;
+  --accent-physics:#C77A1E;
+  --accent-arch:#2E7D4F;
+  --accent-red:#A0463A;       /* subtitle red, the reference colour */
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{background:var(--bg-deep);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;min-height:100%}
-body{overflow-x:hidden}
+html,body{background:var(--bg);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;-webkit-font-smoothing:antialiased;min-height:100%}
+body{overflow-x:hidden;line-height:1.55}
 
-.starfield{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 20% 30%,rgba(75,30,160,0.35),transparent 50%),radial-gradient(ellipse at 80% 70%,rgba(180,40,110,0.25),transparent 50%),radial-gradient(ellipse at 50% 50%,var(--bg-glow),var(--bg-deep) 70%);pointer-events:none}
-.stars{position:fixed;inset:0;z-index:0;opacity:0.6;background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,0.8),transparent),radial-gradient(1px 1px at 60% 70%,rgba(255,255,255,0.5),transparent),radial-gradient(1px 1px at 80% 20%,rgba(255,255,255,0.7),transparent),radial-gradient(1px 1px at 30% 80%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 90% 90%,rgba(255,255,255,0.6),transparent),radial-gradient(1px 1px at 10% 60%,rgba(255,255,255,0.3),transparent),radial-gradient(1px 1px at 70% 40%,rgba(255,255,255,0.5),transparent),radial-gradient(1px 1px at 45% 15%,rgba(255,255,255,0.7),transparent),radial-gradient(1px 1px at 15% 45%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 85% 55%,rgba(255,255,255,0.6),transparent);background-size:800px 800px;animation:drift 120s linear infinite;pointer-events:none}
-@keyframes drift{from{transform:translate(0,0)}to{transform:translate(-800px,-800px)}}
+/* Page wrapper */
+.page{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:48px 56px 96px}
 
-.page{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:64px 56px 120px}
-
-/* Header */
-.masthead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:96px;flex-wrap:wrap;gap:24px}
+/* Masthead */
+.masthead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:64px;flex-wrap:wrap;gap:24px}
 .brand{display:flex;flex-direction:column;gap:4px}
-.brand-mark{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-dim)}
-.brand-name{font-family:'Instrument Serif',serif;font-size:28px;line-height:1;color:var(--ink);font-weight:400;letter-spacing:-0.01em;margin-top:8px}
-.brand-name em{font-style:italic;color:var(--accent-dna)}
-.meta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint);text-align:right;line-height:1.7}
-.meta .pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-arch);box-shadow:0 0 8px var(--accent-arch);margin-right:7px;animation:pulse 2s ease-in-out infinite;vertical-align:middle}
+.brand-mark{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-mute)}
+.brand-name{font-family:'IBM Plex Sans',sans-serif;font-size:30px;line-height:1;color:var(--ink);font-weight:700;letter-spacing:-0.02em;margin-top:8px}
+.brand-name em{font-style:normal;color:var(--accent-dna)}
+.meta{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-mute);text-align:right;line-height:1.7}
+.meta .pulse{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent-arch);box-shadow:0 0 8px rgba(46,125,79,0.5);margin-right:7px;animation:pulse 2s ease-in-out infinite;vertical-align:middle}
 @keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
 
-/* Hero */
-.hero{margin-bottom:88px;max-width:900px}
-.hero-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-dim);margin-bottom:24px;display:flex;align-items:center;gap:12px}
-.hero-kicker::before{content:'';width:32px;height:1px;background:var(--accent-dna)}
-.hero h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:clamp(44px,7vw,86px);line-height:0.98;letter-spacing:-0.02em;color:var(--ink);margin-bottom:28px}
-.hero h1 em{font-style:italic;color:var(--accent-dna)}
-.hero h1 .alt-1{color:var(--accent-bio)}
-.hero h1 .alt-2{color:var(--accent-cells)}
-.hero h1 .alt-3{color:var(--accent-arch)}
-.hero p{font-size:clamp(15px,1.4vw,17px);line-height:1.6;color:var(--ink-dim);max-width:62ch;font-weight:300}
-
-/* Section heading */
-.section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:32px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
-.section-head h2{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-dim);font-weight:500}
-.section-head .count{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--ink-faint)}
-
-/* Tool grid */
-.section{margin-bottom:80px}
-.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
-.tool{background:rgba(15,21,48,0.45);padding:36px 32px 32px;text-decoration:none;color:inherit;display:flex;flex-direction:column;min-height:280px;position:relative;transition:background 0.3s ease;overflow:hidden}
-.tool::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--accent,var(--ink-dim));opacity:0;transition:opacity 0.3s ease}
-.tool:hover{background:rgba(30,40,90,0.7)}
-.tool:hover::before{opacity:1}
-.tool:hover .tool-arrow{transform:translate(6px,-6px);opacity:1}
-.tool:hover .tool-name{color:var(--accent,var(--ink))}
-
-.tool-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint)}
-.tool-spec{color:var(--accent,var(--ink-dim));border:1px solid var(--accent,var(--ink-dim));border-color:rgba(255,255,255,0.18);padding:4px 9px;border-radius:2px;opacity:0.85}
-.tool-arrow{font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--accent,var(--ink-dim));opacity:0.5;transition:all 0.3s ease;display:inline-block}
-
-.tool-name{font-family:'Instrument Serif',serif;font-weight:400;font-size:34px;line-height:1.05;color:var(--ink);margin-top:60px;margin-bottom:6px;letter-spacing:-0.01em;transition:color 0.3s ease}
-.tool-name em{font-style:italic;color:var(--accent,var(--ink-dim))}
-.tool-tagline{font-family:'Instrument Serif',serif;font-style:italic;font-size:16px;color:var(--ink-dim);margin-bottom:18px}
-.tool-desc{font-size:13.5px;line-height:1.55;color:var(--ink-dim);font-weight:300;max-width:42ch}
-
-.tool-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px}
-.tag{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);padding:3px 8px;border:1px solid var(--rule);border-radius:2px}
-
-/* Coming soon */
-.tool.coming{opacity:0.55;cursor:default;pointer-events:none}
-.tool.coming .tool-arrow{display:none}
-.tool.coming::after{content:'COMING SOON';position:absolute;top:14px;right:14px;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.2em;color:var(--ink-faint);padding:3px 8px;border:1px dashed var(--rule);border-radius:2px}
-
-/* Footer */
-.footer{margin-top:120px;padding-top:36px;border-top:1px solid var(--rule);display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:24px;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-faint)}
-.footer p{line-height:1.7}
-.footer-credit{font-family:'Instrument Serif',serif;font-style:italic;font-size:14px;letter-spacing:0;text-transform:none;color:var(--ink-dim)}
-
-@media (max-width:760px){
-  .page{padding:40px 24px 80px}
-  .masthead{margin-bottom:56px}
-  .hero{margin-bottom:64px}
-  .tools{grid-template-columns:1fr}
-  .tool{min-height:220px;padding:28px 24px}
-  .tool-name{font-size:28px;margin-top:40px}
-  .meta{text-align:left}
-}
-
-@media (prefers-reduced-motion:reduce){
-  *{animation:none !important;transition:none !important}
-}
-
-/* Tabs (top-level nav between Tools and Revision) */
-.tabs{display:flex;gap:48px;align-items:flex-end;margin-bottom:88px;border-bottom:1px solid var(--rule);padding-bottom:0}
-.tab{background:none;border:none;cursor:pointer;padding:14px 0 16px;display:flex;align-items:baseline;gap:14px;color:var(--ink-faint);font-family:inherit;position:relative;transition:color 0.25s ease}
-.tab:hover{color:var(--ink-dim)}
+/* Tabs (top-level nav) */
+.tabs{display:flex;gap:48px;align-items:flex-end;margin-bottom:64px;border-bottom:1px solid var(--rule);padding-bottom:0}
+.tab{background:none;border:none;cursor:pointer;padding:14px 0 16px;display:flex;align-items:baseline;gap:14px;color:var(--ink-faint);font-family:inherit;position:relative;transition:color 0.2s ease}
+.tab:hover{color:var(--ink-soft)}
 .tab.active{color:var(--ink)}
-.tab.active::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)}
-.tab-num{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.25em;color:var(--ink-faint);transition:color 0.25s ease}
+.tab.active::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--ink)}
+.tab-num{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:500;letter-spacing:0.25em;color:var(--ink-faint);transition:color 0.2s ease}
 .tab.active .tab-num{color:var(--accent-dna)}
-.tab-label{font-family:'Instrument Serif',serif;font-size:24px;line-height:1;letter-spacing:-0.005em;font-weight:400}
+.tab-label{font-family:'IBM Plex Sans',sans-serif;font-size:22px;line-height:1;letter-spacing:-0.005em;font-weight:600}
 
 .tab-view{display:none}
 .tab-view.active{display:block;animation:fadeIn 0.3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
+/* Hero — pale panel, bold sans, high contrast */
+.hero{
+  margin-bottom:64px;
+  background:var(--paper);
+  border:2px solid var(--accent-dna);
+  padding:clamp(40px,5vw,72px) clamp(28px,4vw,64px);
+  border-radius:4px;
+  position:relative;
+}
+.hero-kicker{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:var(--ink-mute);margin-bottom:28px;display:flex;align-items:center;gap:12px}
+.hero-kicker::before{content:'';width:32px;height:1px;background:var(--accent-dna)}
+.hero h1{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:700;
+  font-size:clamp(40px,6.5vw,86px);
+  line-height:1;
+  letter-spacing:-0.025em;
+  color:var(--ink);
+  margin-bottom:24px;
+}
+.hero .subtitle{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:500;
+  font-size:clamp(22px,3vw,40px);
+  line-height:1.15;
+  letter-spacing:-0.01em;
+  color:var(--accent-red);
+  margin-bottom:32px;
+  max-width:22ch;
+}
+.hero p{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-size:clamp(14px,1.3vw,16px);
+  line-height:1.6;
+  color:var(--ink-soft);
+  max-width:62ch;
+  font-weight:400;
+}
+.hero h1 em,.hero h1 .alt-1,.hero h1 .alt-2,.hero h1 .alt-3{font-style:normal;color:inherit}
+
+/* Section heading */
+.section-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--rule)}
+.section-head h2{font-family:'IBM Plex Sans',sans-serif;font-size:13px;letter-spacing:0.25em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.section-head .count{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.2em;color:var(--ink-faint)}
+
+/* Tool grid */
+.section{margin-bottom:64px}
+.tools{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.tool{
+  background:var(--card);
+  padding:28px 26px 26px;
+  text-decoration:none;
+  color:inherit;
+  display:flex;
+  flex-direction:column;
+  min-height:260px;
+  position:relative;
+  transition:transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  overflow:hidden;
+  border:1px solid var(--rule-soft);
+  border-radius:4px;
+}
+.tool::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:3px;
+  background:var(--accent,var(--ink-mute));
+  opacity:0;
+  transition:opacity 0.2s ease;
+}
+.tool:hover{
+  transform:translateY(-2px);
+  box-shadow:0 10px 30px rgba(26,29,58,0.08), 0 2px 4px rgba(26,29,58,0.04);
+  border-color:var(--accent,var(--ink-mute));
+}
+.tool:hover::before{opacity:1}
+.tool:hover .tool-arrow{transform:translate(6px,-6px);opacity:1;color:var(--accent,var(--ink-soft))}
+.tool:hover .tool-name{color:var(--accent,var(--ink))}
+
+.tool-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:auto;font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--ink-faint);font-weight:500}
+.tool-spec{
+  color:var(--accent,var(--ink-soft));
+  border:1px solid var(--rule);
+  background:var(--paper);
+  padding:4px 9px;
+  border-radius:2px;
+}
+.tool-arrow{font-family:'IBM Plex Mono',monospace;font-size:18px;color:var(--ink-faint);transition:all 0.2s ease;display:inline-block}
+
+.tool-name{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-weight:700;
+  font-size:28px;
+  line-height:1.1;
+  color:var(--ink);
+  margin-top:48px;
+  margin-bottom:6px;
+  letter-spacing:-0.015em;
+  transition:color 0.2s ease;
+}
+.tool-name em{font-style:normal;color:var(--accent,var(--ink-mute))}
+.tool-tagline{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-style:normal;
+  font-weight:500;
+  font-size:14px;
+  color:var(--accent-red);
+  margin-bottom:14px;
+  letter-spacing:-0.005em;
+}
+.tool-desc{
+  font-size:13.5px;
+  line-height:1.55;
+  color:var(--ink-soft);
+  font-weight:400;
+  max-width:42ch;
+}
+
+.tool-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--ink-mute);
+  padding:3px 8px;
+  border:1px solid var(--rule);
+  background:var(--bg-warm);
+  border-radius:2px;
+}
+
+/* Coming soon */
+.tool.coming{opacity:0.55;cursor:default;pointer-events:none}
+.tool.coming .tool-arrow{display:none}
+.tool.coming::after{
+  content:'COMING SOON';
+  position:absolute;
+  top:14px;
+  right:14px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  letter-spacing:0.2em;
+  color:var(--ink-mute);
+  padding:3px 8px;
+  border:1px dashed var(--rule);
+  border-radius:2px;
+}
+
+/* Footer */
+.footer{
+  margin-top:96px;
+  padding-top:32px;
+  border-top:1px solid var(--rule);
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  flex-wrap:wrap;
+  gap:24px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:var(--ink-mute);
+}
+.footer p{line-height:1.7}
+.footer-credit{
+  font-family:'IBM Plex Sans',sans-serif;
+  font-style:normal;
+  font-weight:600;
+  font-size:16px;
+  letter-spacing:-0.005em;
+  text-transform:none;
+  color:var(--ink);
+}
+
 @media (max-width:760px){
-  .tabs{gap:28px;margin-bottom:48px}
-  .tab-label{font-size:20px}
+  .page{padding:32px 22px 64px}
+  .masthead{margin-bottom:40px}
+  .hero{margin-bottom:48px;padding:36px 24px}
+  .tools{grid-template-columns:1fr}
+  .tool{min-height:220px;padding:24px 22px}
+  .tool-name{font-size:24px;margin-top:36px}
+  .meta{text-align:left}
+  .tabs{gap:24px;margin-bottom:40px}
+  .tab-label{font-size:18px}
   .tab{padding:10px 0 12px}
+  .footer{margin-top:64px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
 }
 </style>
 </head>
 <body>
-
-<div class="starfield"></div>
-<div class="stars"></div>
 
 <main class="page">
 
@@ -167,11 +297,8 @@ body{overflow-x:hidden}
 
 <section class="hero">
   <div class="hero-kicker">A growing collection</div>
-  <h1>
-    Zoom into <em>cells</em>, unwind <span class="alt-1">DNA</span>,<br>
-    build <span class="alt-2">force diagrams</span>,<br>
-    and explore <span class="alt-3">passive cooling</span>.
-  </h1>
+  <h1>Interactive Tools</h1>
+  <p class="subtitle">Zoom into cells, unwind DNA, build force diagrams, and explore passive cooling.</p>
   <p>A small library of interactive web tools for science teachers and students. Built to project in lessons, work in revision, and stay out of the way. No accounts. No ads. Just open and click.</p>
 </section>
 
@@ -275,6 +402,30 @@ body{overflow-x:hidden}
   </div>
 </section>
 
+<!-- CHEMISTRY -->
+<section class="section">
+  <div class="section-head">
+    <h2>Chemistry</h2>
+    <span class="count">01 tool</span>
+  </div>
+  <div class="tools">
+
+    <a class="tool" href="atom-counter.html" style="--accent:var(--accent-bio)">
+      <div class="tool-meta">
+        <span class="tool-spec">KS3 · Atoms &amp; Molecules</span>
+        <span class="tool-arrow">↗</span>
+      </div>
+      <h3 class="tool-name">Atom <em>Counter</em></h3>
+      <p class="tool-tagline">read a formula · count the atoms</p>
+      <p class="tool-desc">Drop a chemical formula in — H₂O, CO₂, Ca(OH)₂, 2H₂SO₄ — and see exactly how each atom is counted, including subscripts, brackets, and big multipliers. Built for KS3 to make formula-reading click.</p>
+      <div class="tool-tags">
+        <span class="tag">KS3</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
 <!-- ARCHITECTURE / ENVIRONMENTAL -->
 <section class="section">
   <div class="section-head">
@@ -304,10 +455,8 @@ body{overflow-x:hidden}
 
 <section class="hero">
   <div class="hero-kicker">Self-paced revision</div>
-  <h1>
-    <em>Bitesize</em> revision, with answers<br>
-    you can <span class="alt-1">hide</span> and <span class="alt-2">reveal</span>.
-  </h1>
+  <h1>Revision Booklets</h1>
+  <p class="subtitle">Bitesize topics, with answers you can hide and reveal.</p>
   <p>Topic-shaped revision booklets, sized for one sitting. Hide-and-reveal answers, embedded interactives, and bitesize summaries — built to work on a phone the night before, or in school during tutor time. No login. No tracking.</p>
 </section>
 
@@ -414,10 +563,8 @@ body{overflow-x:hidden}
 
 <section class="hero">
   <div class="hero-kicker">Retrieval practice</div>
-  <h1>
-    Knowledge that <em>sticks</em>,<br>
-    one short <span class="alt-3">session</span> at a time.
-  </h1>
+  <h1>Retrieval Practice</h1>
+  <p class="subtitle">Knowledge that sticks, one short session at a time.</p>
   <p>Retrieval practice is the most evidence-backed way to make knowledge stick. Short, daily quizzes that bring questions back at the right intervals — keeping what you've learned from slipping. Click through to start a session.</p>
 </section>
 
@@ -451,10 +598,8 @@ body{overflow-x:hidden}
 
 <section class="hero">
   <div class="hero-kicker">For teachers</div>
-  <h1>
-    A shared <em>base</em> for<br>
-    every <span class="alt-2">lesson</span>.
-  </h1>
+  <h1>Teacher Resources</h1>
+  <p class="subtitle">A shared base for every lesson.</p>
   <p>The aim of the teacher side of this site is a shared library of science lessons — open, copyable, editable. Start with the Science Kit below; more free resources will appear here over time.</p>
 </section>
 
@@ -540,3 +685,4 @@ body{overflow-x:hidden}
 
 </body>
 </html>
+

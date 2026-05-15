@@ -59,6 +59,18 @@ body{
 .pace-banner p{font-size:15px;line-height:1.5;color:rgba(248,244,236,0.92)}
 .pace-banner strong{color:var(--warm);font-weight:500}
 
+/* ---------- PDF DOWNLOAD CTA ---------- */
+.pdf-cta{margin-top:18px;padding:18px 22px;border:1px solid rgba(248,244,236,0.2);background:rgba(0,0,0,0.15);display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.pdf-cta-text{flex:1 1 240px;min-width:0}
+.pdf-cta-label{font-family:var(--mono);font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.pdf-cta-title{font-family:var(--display);font-size:22px;line-height:1.2;color:var(--warm);font-weight:400;margin-bottom:4px}
+.pdf-cta-title em{font-style:italic;color:var(--gold)}
+.pdf-cta-sub{font-size:13px;line-height:1.4;color:rgba(248,244,236,0.7)}
+.pdf-cta-button{flex:0 0 auto;display:inline-flex;align-items:center;gap:10px;padding:12px 20px;background:var(--gold);color:var(--navy);font-family:var(--mono);font-size:12px;letter-spacing:0.18em;text-transform:uppercase;font-weight:600;text-decoration:none;border:1px solid var(--gold);transition:all 0.2s}
+.pdf-cta-button:hover{background:transparent;color:var(--gold)}
+.pdf-cta-button svg{flex:0 0 auto}
+.pdf-cta-meta{font-family:var(--mono);font-size:10px;letter-spacing:0.15em;color:rgba(248,244,236,0.5);margin-top:8px}
+
 /* ---------- LESSON NAV ---------- */
 .lesson-nav{position:sticky;top:0;z-index:100;background:rgba(252,250,244,0.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--rule);padding:12px 0}
 .nav-inner{max-width:720px;margin:0 auto;padding:0 16px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
@@ -194,6 +206,22 @@ footer .sig{font-family:var(--display);font-style:italic;font-size:18px;color:va
     <div class="pace-banner">
       <span class="pace-icon">i</span>
       <p><strong>Take it one topic at a time.</strong> There are eight topics. Each one is short — about 10 minutes. Do one or two a day.</p>
+    </div>
+    <div class="pdf-cta">
+      <div class="pdf-cta-text">
+        <div class="pdf-cta-label">Printable pack</div>
+        <div class="pdf-cta-title">Prefer <em>paper?</em></div>
+        <p class="pdf-cta-sub">The whole booklet as a print-friendly PDF. Eight topics, one page each, black &amp; white.</p>
+        <div class="pdf-cta-meta">PDF · 8 pages · A4 · 252 KB</div>
+      </div>
+      <a class="pdf-cta-button" href="downloads/cells-revision-all-topics.pdf" download>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download PDF
+      </a>
     </div>
   </div>
 </header>
@@ -1253,3 +1281,4 @@ footer .sig{font-family:var(--display);font-style:italic;font-size:18px;color:va
 
 </body>
 </html>
+

@@ -49,6 +49,8 @@
     padding:14px;box-shadow:0 1px 0 #00000008,0 8px 24px -16px #00000022;
   }
   canvas{display:block;width:100%;height:auto;border-radius:10px;background:#fcfaf4;}
+  .stage-top{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+  #play{min-width:108px;}
   .legend{
     display:flex;flex-wrap:wrap;gap:14px;margin-top:10px;
     font-size:0.82rem;color:var(--muted);
@@ -147,6 +149,9 @@
   </header>
 
   <div class="stage">
+    <div class="stage-top">
+      <button id="play">Play</button>
+    </div>
     <canvas id="cv"></canvas>
     <div class="legend">
       <span><i class="dot out"></i>particle outside the cell (high concentration)</span>
@@ -182,7 +187,6 @@
       </div>
 
       <div class="bar">
-        <button id="play">Pause</button>
         <button id="restart" class="ghost">Restart run</button>
       </div>
     </div>
@@ -530,3 +534,4 @@
 </script>
 </body>
 </html>
+

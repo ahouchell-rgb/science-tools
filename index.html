@@ -195,6 +195,26 @@ body{overflow-x:hidden;line-height:1.55}
   border-radius:2px;
 }
 
+/* Sub-groups — topic "folders" within a subject */
+.subgroup{margin-bottom:44px}
+.subgroup:last-child{margin-bottom:0}
+.subgroup-head{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.subgroup-head .folder-tag{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:11px;letter-spacing:0.22em;text-transform:uppercase;
+  font-weight:500;color:var(--accent,var(--ink-soft));
+  display:inline-flex;align-items:center;gap:9px;white-space:nowrap;
+}
+.subgroup-head .folder-tag::before{
+  content:'';width:9px;height:9px;border-radius:2px;
+  background:var(--accent,var(--ink-mute));
+}
+.subgroup-head .sg-rule{flex:1;height:1px;background:var(--rule-soft)}
+.subgroup-head .sg-count{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  letter-spacing:0.2em;color:var(--ink-faint);white-space:nowrap;
+}
+
 /* Coming soon */
 .tool.coming{opacity:0.55;cursor:default;pointer-events:none}
 .tool.coming .tool-arrow{display:none}
@@ -308,6 +328,9 @@ body{overflow-x:hidden;line-height:1.55}
     <h2>Biology</h2>
     <span class="count">10 tools</span>
   </div>
+
+  <div class="subgroup" style="--accent:var(--accent-cells)">
+  <div class="subgroup-head"><span class="folder-tag">Cells &amp; Microscopy</span><span class="sg-rule"></span><span class="sg-count">3 tools</span></div>
   <div class="tools">
 
     <a class="tool" href="cell-zoom.html" style="--accent:var(--accent-bio)">
@@ -320,45 +343,6 @@ body{overflow-x:hidden;line-height:1.55}
       <p class="tool-desc">A continuous zoom from a whole cell down to the bases of DNA. Toggle between animal, plant, and bacterial cells. Click any organelle for GCSE-level detail.</p>
       <div class="tool-tags">
         <span class="tag">KS3</span><span class="tag">GCSE</span><span class="tag">Combined</span><span class="tag">Triple</span>
-      </div>
-    </a>
-
-    <a class="tool" href="dna-zoom.html" style="--accent:var(--accent-dna)">
-      <div class="tool-meta">
-        <span class="tool-spec">AQA 6.1.5</span>
-        <span class="tool-arrow">↗</span>
-      </div>
-      <h3 class="tool-name">Zoom into <em>DNA</em></h3>
-      <p class="tool-tagline">a double helix, in five steps</p>
-      <p class="tool-desc">Chromosome → double helix → gene → nucleotide → base pairs. Built for Triple Biology. Click each part of a nucleotide to see what it does and why it matters in the exam.</p>
-      <div class="tool-tags">
-        <span class="tag">GCSE</span><span class="tag">Triple Biology</span>
-      </div>
-    </a>
-
-    <a class="tool" href="genetics-vocabulary.html" style="--accent:var(--accent-dna)">
-      <div class="tool-meta">
-        <span class="tool-spec">Y8 · B9 Inheritance</span>
-        <span class="tool-arrow">↗</span>
-      </div>
-      <h3 class="tool-name">Genetics <em>Vocab</em></h3>
-      <p class="tool-tagline">twelve questions · staged reveals</p>
-      <p class="tool-desc">A check for understanding for the seven core genetics terms: allele, dominant, recessive, genotype, phenotype, heterozygous, homozygous. Twelve questions move from forward chains through reverse problems to a final trick question — each answer reveals in stages so a teacher can cold-call between every step.</p>
-      <div class="tool-tags">
-        <span class="tag">KS3</span><span class="tag">Year 8</span>
-      </div>
-    </a>
-
-    <a class="tool" href="genetics-recap.html" style="--accent:var(--accent-dna)">
-      <div class="tool-meta">
-        <span class="tool-spec">Y8 · B9 Inheritance</span>
-        <span class="tool-arrow">↗</span>
-      </div>
-      <h3 class="tool-name">Genetics <em>Recap</em></h3>
-      <p class="tool-tagline">whole-unit recap · diagnose, recall, practise</p>
-      <p class="tool-desc">A teacher-led recap of the whole B9 inheritance unit, built for the first lesson back. Opens with diagnostic hinge questions, then moves through five sections — DNA structure, alleles and genotype/phenotype, Punnett squares, sex determination, and genetic disorders — each with a recall prompt, a quick task, and independent practice. Tackles the &ldquo;1 in 4&rdquo; misconception head-on and ends with a say-it-then-write-it task.</p>
-      <div class="tool-tags">
-        <span class="tag">KS3</span><span class="tag">Year 8</span>
       </div>
     </a>
 
@@ -387,6 +371,13 @@ body{overflow-x:hidden;line-height:1.55}
         <span class="tag">KS3</span><span class="tag">GCSE</span>
       </div>
     </a>
+
+  </div>
+  </div><!-- /Cells & Microscopy -->
+
+  <div class="subgroup" style="--accent:var(--accent-bio)">
+  <div class="subgroup-head"><span class="folder-tag">Transport — Diffusion &amp; Osmosis</span><span class="sg-rule"></span><span class="sg-count">3 tools</span></div>
+  <div class="tools">
 
     <a class="tool" href="diffusion.html" style="--accent:var(--accent-cells)">
       <div class="tool-meta">
@@ -427,6 +418,13 @@ body{overflow-x:hidden;line-height:1.55}
       </div>
     </a>
 
+  </div>
+  </div><!-- /Transport -->
+
+  <div class="subgroup" style="--accent:var(--accent-arch)">
+  <div class="subgroup-head"><span class="folder-tag">Gas Exchange</span><span class="sg-rule"></span><span class="sg-count">1 tool</span></div>
+  <div class="tools">
+
     <a class="tool" href="gas-exchange-alveoli.html" style="--accent:var(--accent-cells)">
       <div class="tool-meta">
         <span class="tool-spec">AQA · Gas exchange</span>
@@ -441,6 +439,53 @@ body{overflow-x:hidden;line-height:1.55}
     </a>
 
   </div>
+  </div><!-- /Gas Exchange -->
+
+  <div class="subgroup" style="--accent:var(--accent-dna)">
+  <div class="subgroup-head"><span class="folder-tag">Genetics &amp; DNA</span><span class="sg-rule"></span><span class="sg-count">3 tools</span></div>
+  <div class="tools">
+
+    <a class="tool" href="dna-zoom.html" style="--accent:var(--accent-dna)">
+      <div class="tool-meta">
+        <span class="tool-spec">AQA 6.1.5</span>
+        <span class="tool-arrow">↗</span>
+      </div>
+      <h3 class="tool-name">Zoom into <em>DNA</em></h3>
+      <p class="tool-tagline">a double helix, in five steps</p>
+      <p class="tool-desc">Chromosome → double helix → gene → nucleotide → base pairs. Built for Triple Biology. Click each part of a nucleotide to see what it does and why it matters in the exam.</p>
+      <div class="tool-tags">
+        <span class="tag">GCSE</span><span class="tag">Triple Biology</span>
+      </div>
+    </a>
+
+    <a class="tool" href="genetics-vocabulary.html" style="--accent:var(--accent-dna)">
+      <div class="tool-meta">
+        <span class="tool-spec">Y8 · B9 Inheritance</span>
+        <span class="tool-arrow">↗</span>
+      </div>
+      <h3 class="tool-name">Genetics <em>Vocab</em></h3>
+      <p class="tool-tagline">twelve questions · staged reveals</p>
+      <p class="tool-desc">A check for understanding for the seven core genetics terms: allele, dominant, recessive, genotype, phenotype, heterozygous, homozygous. Twelve questions move from forward chains through reverse problems to a final trick question — each answer reveals in stages so a teacher can cold-call between every step.</p>
+      <div class="tool-tags">
+        <span class="tag">KS3</span><span class="tag">Year 8</span>
+      </div>
+    </a>
+
+    <a class="tool" href="genetics-recap.html" style="--accent:var(--accent-dna)">
+      <div class="tool-meta">
+        <span class="tool-spec">Y8 · B9 Inheritance</span>
+        <span class="tool-arrow">↗</span>
+      </div>
+      <h3 class="tool-name">Genetics <em>Recap</em></h3>
+      <p class="tool-tagline">whole-unit recap · diagnose, recall, practise</p>
+      <p class="tool-desc">A teacher-led recap of the whole B9 inheritance unit, built for the first lesson back. Opens with diagnostic hinge questions, then moves through five sections — DNA structure, alleles and genotype/phenotype, Punnett squares, sex determination, and genetic disorders — each with a recall prompt, a quick task, and independent practice. Tackles the &ldquo;1 in 4&rdquo; misconception head-on and ends with a say-it-then-write-it task.</p>
+      <div class="tool-tags">
+        <span class="tag">KS3</span><span class="tag">Year 8</span>
+      </div>
+    </a>
+
+  </div>
+  </div><!-- /Genetics & DNA -->
 </section>
 
 <!-- PHYSICS -->
@@ -449,6 +494,9 @@ body{overflow-x:hidden;line-height:1.55}
     <h2>Physics</h2>
     <span class="count">05 tools</span>
   </div>
+
+  <div class="subgroup" style="--accent:var(--accent-physics)">
+  <div class="subgroup-head"><span class="folder-tag">Forces &amp; Motion</span><span class="sg-rule"></span><span class="sg-count">1 tool</span></div>
   <div class="tools">
 
     <a class="tool" href="force-diagram-builder.html" style="--accent:var(--accent-physics)">
@@ -464,6 +512,13 @@ body{overflow-x:hidden;line-height:1.55}
       </div>
     </a>
 
+  </div>
+  </div><!-- /Forces & Motion -->
+
+  <div class="subgroup" style="--accent:var(--accent-cells)">
+  <div class="subgroup-head"><span class="folder-tag">Particles &amp; Matter</span><span class="sg-rule"></span><span class="sg-count">1 tool</span></div>
+  <div class="tools">
+
     <a class="tool" href="particle-model.html" style="--accent:var(--accent-physics)">
       <div class="tool-meta">
         <span class="tool-spec">KS3 · Particles</span>
@@ -476,6 +531,13 @@ body{overflow-x:hidden;line-height:1.55}
         <span class="tag">KS3</span><span class="tag">GCSE bridge</span>
       </div>
     </a>
+
+  </div>
+  </div><!-- /Particles & Matter -->
+
+  <div class="subgroup" style="--accent:var(--accent-physics)">
+  <div class="subgroup-head"><span class="folder-tag">Energy &amp; Power</span><span class="sg-rule"></span><span class="sg-count">3 tools</span></div>
+  <div class="tools">
 
     <a class="tool" href="energy-stores.html" style="--accent:var(--accent-physics)">
       <div class="tool-meta">
@@ -517,6 +579,7 @@ body{overflow-x:hidden;line-height:1.55}
     </a>
 
   </div>
+  </div><!-- /Energy & Power -->
 </section>
 
 <!-- CHEMISTRY -->
@@ -525,6 +588,9 @@ body{overflow-x:hidden;line-height:1.55}
     <h2>Chemistry</h2>
     <span class="count">04 tools</span>
   </div>
+
+  <div class="subgroup" style="--accent:var(--accent-bio)">
+  <div class="subgroup-head"><span class="folder-tag">Atoms &amp; Compounds</span><span class="sg-rule"></span><span class="sg-count">2 tools</span></div>
   <div class="tools">
 
     <a class="tool" href="atom-counter.html" style="--accent:var(--accent-bio)">
@@ -553,6 +619,13 @@ body{overflow-x:hidden;line-height:1.55}
       </div>
     </a>
 
+  </div>
+  </div><!-- /Atoms & Compounds -->
+
+  <div class="subgroup" style="--accent:var(--accent-red)">
+  <div class="subgroup-head"><span class="folder-tag">Earth &amp; Geology</span><span class="sg-rule"></span><span class="sg-count">2 tools</span></div>
+  <div class="tools">
+
     <a class="tool" href="rock-cycle_4.html" style="--accent:var(--accent-red)">
       <div class="tool-meta">
         <span class="tool-spec">KS3 · The Rock Cycle</span>
@@ -580,6 +653,7 @@ body{overflow-x:hidden;line-height:1.55}
     </a>
 
   </div>
+  </div><!-- /Earth & Geology -->
 </section>
 
 <!-- ARCHITECTURE / ENVIRONMENTAL -->
@@ -880,6 +954,7 @@ body{overflow-x:hidden;line-height:1.55}
 
 </body>
 </html>
+
 
 
 

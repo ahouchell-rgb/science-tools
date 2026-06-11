@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why did the atmosphere change?</title>
+<style>
+  :root{
+    --navy:#13294b; --teal:#0e7c86; --teal-dk:#0a5c64; --ink:#1f2933; --muted:#6b7a8d;
+    --pale:#f5f8fa; --gold:#c9962b;
+    --s1:#e2641e; --s2:#2e6fbf; --s3:#2e8b57; --s4:#13294b;
+    --co2:#c2603a; --o2:#0e9b86; --n2:#7c8aa0; --h2o:#9fc6d8;
+    --good:#1e7a4b; --good-pale:#e7f3ec; --warn:#b4521e; --warn-pale:#fbeee6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Segoe UI",system-ui,Calibri,Arial,sans-serif;background:var(--pale);color:var(--ink);line-height:1.4;padding:18px;display:flex;justify-content:center}
+  .wrap{width:100%;max-width:1180px}
+  header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+  h1{font-family:Cambria,Georgia,serif;color:var(--navy);font-size:clamp(22px,3.4vw,34px);font-weight:700}
+  .kick{font-size:12px;letter-spacing:2px;font-weight:700;color:var(--teal);text-transform:uppercase}
+  .steppill{color:#fff;font-weight:700;border-radius:999px;padding:7px 16px;font-size:15px;white-space:nowrap;background:var(--s1);transition:background .3s}
+
+  .flow{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin:8px 0 14px}
+  .fstep{display:flex;align-items:center;gap:9px;cursor:pointer;padding:7px 13px;border-radius:999px;background:#fff;border:1.7px solid #dbe2e9;transition:.15s}
+  .fstep .num{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:700;font-size:13px}
+  .fstep .lab{font-weight:700;font-size:14px;color:var(--muted)}
+  .fstep.now{box-shadow:0 2px 10px rgba(0,0,0,.12)}
+  .fstep.now .lab{color:var(--ink)}
+  .farrow{color:#c2ccd6;font-size:17px;font-weight:700}
+
+  .stage{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+  @media(max-width:820px){.stage{grid-template-columns:1fr}}
+  .scenecard{background:#fff;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.10);overflow:hidden;position:relative}
+  canvas{display:block;width:100%;height:auto;background:#222}
+  .scenehint{position:absolute;left:12px;bottom:10px;background:rgba(10,20,35,.55);color:#dfeaf2;font-size:12px;padding:5px 10px;border-radius:7px}
+
+  .side{display:flex;flex-direction:column;gap:14px}
+  .panel{background:#fff;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.08);padding:16px 18px}
+  .panel h2{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:12px;font-weight:700}
+  .bar{display:flex;height:46px;border-radius:9px;overflow:hidden;border:1px solid #e2e8ee}
+  .seg{height:100%;transition:width .35s linear;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;min-width:0;overflow:hidden;white-space:nowrap}
+  .legend{display:flex;flex-wrap:wrap;gap:9px 16px;margin-top:13px;font-size:14px}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .approxnote{font-size:12px;color:var(--muted);font-style:italic;margin-top:9px;min-height:16px}
+  .caption .what{font-size:clamp(16px,2vw,19px);font-weight:700;color:var(--ink);margin-bottom:7px}
+  .caption .why{font-size:clamp(15px,1.8vw,17px);color:var(--teal-dk)}
+  .modeltag{margin-top:14px;background:var(--gold);border-radius:9px;padding:11px 14px}
+  .modeltag .lbl{display:block;font-size:11px;letter-spacing:1px;color:#5a4410;font-weight:700;margin-bottom:3px}
+  .modeltag .txt{font-size:14px;font-weight:700;color:#241a03}
+
+  .examtip{margin-top:15px;display:flex;align-items:center;gap:15px;background:#fff;border:2px solid var(--navy);border-radius:14px;padding:13px 20px}
+  .examtip .bulb{flex:none;width:44px;height:44px;border-radius:50%;background:var(--navy);display:grid;place-items:center}
+  .examtip .ttl{font-family:Cambria,Georgia,serif;font-weight:700;color:var(--navy);font-size:18px;margin-right:4px}
+  .examtip .bd{color:var(--ink);font-size:15px}
+
+  .controls{display:flex;align-items:center;gap:14px;margin-top:16px;flex-wrap:wrap}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:9px;font-weight:700;transition:.15s}
+  .nav{background:var(--teal);color:#fff;font-size:17px;padding:13px 26px}
+  .nav:hover{background:var(--teal-dk)} .nav:disabled{background:#c3cdd6;cursor:not-allowed}
+  .ghost{background:#fff;color:var(--navy);border:1.5px solid #cdd7e0;font-size:14px;padding:11px 16px}
+  .ghost:hover{background:#eef3f7}
+  .spacer{flex:1}
+
+  .cfu{margin-top:22px;background:#fff;border-radius:14px;box-shadow:0 4px 16px rgba(0,0,0,.08);padding:22px 24px}
+  .cfu.locked{opacity:.55}
+  .cfu .head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+  .cfu h2{font-family:Cambria,Georgia,serif;color:var(--navy);font-size:24px}
+  .cfu .qcount{color:var(--muted);font-weight:700;font-size:14px}
+  .qtext{font-size:clamp(17px,2.1vw,20px);font-weight:700;color:var(--ink);margin:14px 0 16px}
+  .opts{display:flex;flex-direction:column;gap:11px}
+  .opt{display:flex;align-items:flex-start;gap:13px;text-align:left;background:#fff;border:1.6px solid #d7dee6;border-radius:11px;padding:14px 16px;font-size:16px;color:var(--ink)}
+  .opt:hover:not(.disabled){border-color:var(--teal);background:#f3fafb}
+  .opt .key{flex:none;width:30px;height:30px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px}
+  .opt.correct{border-color:var(--good);background:var(--good-pale)} .opt.correct .key{background:var(--good)}
+  .opt.wrong{border-color:var(--warn);background:var(--warn-pale)} .opt.wrong .key{background:var(--warn)}
+  .opt.disabled{cursor:default}
+  .fb{margin-top:16px;font-size:16px;border-radius:10px;padding:14px 16px;display:none}
+  .fb.show{display:block} .fb.right{background:var(--good-pale);color:#13502f} .fb.miss{background:var(--warn-pale);color:#7a3411}
+  .cfu .foot{display:flex;justify-content:space-between;align-items:center;margin-top:18px;flex-wrap:wrap;gap:10px}
+  .score{font-weight:700;color:var(--navy);font-size:15px}
+  .startcfu{background:var(--navy);color:#fff;font-size:16px;padding:13px 22px;border-radius:9px} .startcfu:disabled{background:#c3cdd6;cursor:not-allowed}
+  .hint{font-size:13px;color:var(--muted);font-style:italic}
+  .recap{font-size:17px;line-height:1.5;color:var(--ink)} .recap b{color:var(--teal-dk)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="kick">AQA Trilogy GCSE &middot; Chemistry of the atmosphere</div>
+      <h1>Why did the atmosphere change?</h1>
+    </div>
+    <div class="steppill" id="steppill">Stage 1 of 4</div>
+  </header>
+
+  <div class="flow" id="flow"></div>
+
+  <div class="stage">
+    <div class="scenecard">
+      <canvas id="scene" width="1000" height="600"></canvas>
+      <div class="scenehint" id="sceneHint">The process runs while you watch &mdash; click Next for the next stage</div>
+    </div>
+    <div class="side">
+      <div class="panel">
+        <h2>What the air is made of</h2>
+        <div class="bar" id="bar">
+          <div class="seg" data-g="n2" style="background:var(--n2)"></div>
+          <div class="seg" data-g="o2" style="background:var(--o2)"></div>
+          <div class="seg" data-g="co2" style="background:var(--co2)"></div>
+          <div class="seg" data-g="h2o" style="background:var(--h2o)"></div>
+        </div>
+        <div class="legend">
+          <span><svg width="30" height="16"><circle cx="9" cy="8" r="6" fill="#7c8aa0"/><circle cx="20" cy="8" r="6" fill="#7c8aa0"/></svg>Nitrogen (N&#8322;)</span>
+          <span><svg width="30" height="16"><circle cx="9" cy="8" r="6" fill="#0e9b86"/><circle cx="20" cy="8" r="6" fill="#0e9b86"/></svg>Oxygen (O&#8322;)</span>
+          <span><svg width="34" height="16"><circle cx="8" cy="8" r="5" fill="#c2603a"/><circle cx="17" cy="8" r="6.5" fill="#9c4426"/><circle cx="26" cy="8" r="5" fill="#c2603a"/></svg>Carbon dioxide (CO&#8322;)</span>
+          <span><svg width="24" height="16"><circle cx="12" cy="8" r="6.5" fill="#9fc6d8"/><circle cx="5" cy="5" r="3.4" fill="#cfe6f0"/><circle cx="19" cy="5" r="3.4" fill="#cfe6f0"/></svg>Water vapour</span>
+        </div>
+        <div class="approxnote" id="approxnote"></div>
+      </div>
+      <div class="panel caption">
+        <div class="what" id="capWhat"></div>
+        <div class="why" id="capWhy"></div>
+        <div class="modeltag"><span class="lbl" id="mpLabel">EXAM MARK POINTS</span><span class="txt" id="mpText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="examtip">
+    <div class="bulb"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 18h6v1.5a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 19.5V18z" fill="#ffd24d"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.2 1 2v.3h6v-.3c0-.8.4-1.5 1-2A7 7 0 0 0 12 2z" fill="#ffd24d"/></svg></div>
+    <div><span class="ttl">EXAM TIP</span><span class="bd">Do not say oxygen was always present in large amounts &mdash; the early atmosphere had almost no oxygen.</span></div>
+  </div>
+
+  <div class="controls">
+    <button class="nav" id="backBtn">&#9664; Back</button>
+    <span class="spacer"></span>
+    <button class="nav" id="nextBtn">Next &#9654;</button>
+    <button class="ghost" id="restartBtn">&#8634; Start over</button>
+  </div>
+
+  <div class="cfu locked" id="cfu">
+    <div class="head"><h2>Check your understanding</h2><span class="qcount" id="qcount"></span></div>
+    <div id="cfuIntro">
+      <p class="hint" id="cfuLockMsg">Step through all four stages first &mdash; then this unlocks.</p>
+      <div class="foot"><span class="hint">Four quick questions on what you just saw.</span><button class="startcfu" id="startCfu" disabled>Start the check &#9654;</button></div>
+    </div>
+    <div id="cfuBody" style="display:none">
+      <div class="qtext" id="qtext"></div><div class="opts" id="opts"></div><div class="fb" id="fb"></div>
+      <div class="foot"><span class="score" id="score"></span><button class="startcfu" id="nextQ" style="display:none">Next question &#9654;</button></div>
+    </div>
+    <div id="cfuEnd" style="display:none">
+      <p class="recap" id="recapText"></p>
+      <div class="foot"><span class="score" id="finalScore"></span><button class="ghost" id="retryCfu">Try the check again</button></div>
+    </div>
+  </div>
+</div>
+<script>
+/* ===================== STAGES (4) ===================== */
+const STAGES=[
+  { name:"Volcanoes", time:"~4.6 billion years ago", col:"#e2641e",
+    sky:["#3a1410","#7c2d1e"], ground:"#241410", ocean:0, volcano:1, clouds:0, sun:0, algae:0, plants:0, globe:0,
+    comp:{n2:12,o2:0,co2:76,h2o:12}, air:{co2:20,n2:7,h2o:7,o2:0}, proc:"emit", approx:true,
+    what:"Volcanic activity released carbon dioxide, water vapour and nitrogen.",
+    why:"The early atmosphere had almost no oxygen.",
+    mp:"1\u20132 \u00b7 Early air was mostly CO\u2082 (+ water vapour, N\u2082), from volcanoes. Almost no O\u2082." },
+
+  { name:"Cooling Earth", time:"the surface cools", col:"#2e6fbf",
+    sky:["#5a6a76","#8198a6"], ground:"#3a4750", ocean:0.36, volcano:0.15, clouds:1, sun:0, algae:0, plants:0, globe:0,
+    comp:{n2:38,o2:0,co2:57,h2o:5}, air:{co2:10,n2:10,h2o:2,o2:0}, proc:"cool", approx:true,
+    what:"Water vapour condensed to form oceans. Carbon dioxide dissolved in the oceans.",
+    why:"As CO\u2082 dissolved into the new oceans, the amount in the air fell.",
+    mp:"3\u20134 \u00b7 Cooled \u2192 vapour condensed \u2192 oceans formed; CO\u2082 dissolved \u2192 CO\u2082 fell." },
+
+  { name:"Photosynthesis", time:"life begins to photosynthesise", col:"#2e8b57",
+    sky:["#aedcf2","#74b4d8"], ground:"#3c6a32", ocean:0.40, volcano:0, clouds:0, sun:1, algae:1, plants:1, globe:0,
+    comp:{n2:62,o2:20,co2:16,h2o:2}, air:{co2:3,n2:13,h2o:1,o2:7}, proc:"swap2", approx:true,
+    what:"Algae and plants used carbon dioxide and released oxygen.",
+    why:"Photosynthesis removed CO\u2082 and added O\u2082, so oxygen built up.",
+    mp:"5 \u00b7 Algae, then land plants, photosynthesised \u2192 O\u2082 rose and CO\u2082 fell." },
+
+  { name:"Today's atmosphere", time:"now", col:"#13294b",
+    sky:["#e8f1fa","#cadff1"], ground:"#3f6a35", ocean:0, volcano:0, clouds:0, sun:0, algae:0, plants:0, globe:1,
+    comp:{n2:78,o2:21,co2:0,h2o:1}, air:{co2:0,n2:8,h2o:0,o2:2}, proc:"settle", approx:false,
+    what:"Nitrogen is now the main gas and oxygen is the second most common gas.",
+    why:"Nitrogen is unreactive, so almost nothing removed it \u2014 it simply built up.",
+    mp:"6 \u00b7 Today the air is ~78% N\u2082, ~21% O\u2082 and ~0.04% CO\u2082." }
+];
+
+const cv=document.getElementById("scene"), ctx=cv.getContext("2d");
+const W=cv.width, H=cv.height, GROUND=H-50;
+let idx=0, reached=0, frame=0;
+let scene={sky0:hx(STAGES[0].sky[0]),sky1:hx(STAGES[0].sky[1]),ground:hx(STAGES[0].ground),ocean:0};
+let tgt={...scene};
+let compShown={...STAGES[0].comp};
+const mols=[], rain=[], ash=[], arrows=[];
+let volcanoes=[], algaePos=[], plantPos=[];
+
+function hx(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function lerp(a,b,t){return a+(b-a)*t;}
+function lerpC(a,b,t){return [lerp(a[0],b[0],t),lerp(a[1],b[1],t),lerp(a[2],b[2],t)];}
+function rgb(c){return `rgb(${c[0]|0},${c[1]|0},${c[2]|0})`;}
+function oceanY(){return H-H*scene.ocean;}
+function rand(a,b){return a+Math.random()*(b-a);}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+
+function newMol(kind,x,y,state){return {kind,x,y,vx:rand(-.25,.25),vy:rand(-.18,.18),bx:x,by:y,r:6.4,alpha:0,ph:rand(0,6.28),state:state||"drift",leaving:false,target:null};}
+function airborne(kind){return mols.filter(m=>!m.leaving&&m.alpha>0.35&&m.kind===kind&&(m.state==="drift"||m.state==="emitting"||m.state==="born"));}
+function restPos(){const s=STAGES[idx]; if(s.globe) return {x:rand(40,W*0.46),y:rand(30,H*0.36)}; return {x:rand(40,W-40),y:rand(26,Math.max(80,oceanY()-40))};}
+
+function setupGeometry(s){
+  volcanoes = s.volcano>0 ? [[150,1.0],[440,0.66],[770,0.92],[910,0.6]].map(([x,sc])=>({x,s:sc})) : [];
+  algaePos=[]; if(s.algae){ for(let i=0;i<7;i++) algaePos.push({x:rand(55,W*0.55),y:rand(oceanY()+34,H-30),h:rand(34,58),pulse:0}); }
+  plantPos=[]; if(s.plants){ const lx=W*0.6; for(let i=0;i<8;i++){ const x=lx+50+i*((W-lx-86)/7); plantPos.push({x,pulse:0}); } }
+}
+function applyStage(animate){
+  const s=STAGES[idx];
+  tgt={sky0:hx(s.sky[0]),sky1:hx(s.sky[1]),ground:hx(s.ground),ocean:s.ocean};
+  if(!animate){ scene={sky0:tgt.sky0.slice(),sky1:tgt.sky1.slice(),ground:tgt.ground.slice(),ocean:tgt.ocean}; compShown={...s.comp}; }
+  setupGeometry(s);
+  if(!animate){ mols.length=0;rain.length=0;ash.length=0;arrows.length=0;
+    Object.keys(s.air).forEach(k=>{for(let i=0;i<s.air[k];i++){const r=restPos();const m=newMol(k,r.x,r.y);m.alpha=0.95;m.bx=r.x;m.by=r.y;mols.push(m);}}); }
+  updateUI();
+}
+
+/* mechanism events */
+function emitFromVolcano(kind){ if(!volcanoes.length)return fadeIn(kind); const v=pick(volcanoes),cx=v.x,cy=GROUND-150*v.s; const m=newMol(kind,cx,cy,"emitting");const r=restPos();m.bx=r.x;m.by=r.y;m.vy=-1.3;m.vx=rand(-.6,.6);mols.push(m); }
+function fadeIn(kind){ const r=restPos();const m=newMol(kind,r.x,kind==="n2"?rand(20,H*0.4):r.y);m.bx=r.x;m.by=r.y;mols.push(m); }
+function sinkOne(kind){ const l=airborne(kind);if(!l.length)return;const m=pick(l);m.leaving=true;m.state="sinking";m.target={x:rand(40,W-40),y:rand(oceanY()+25,H-20)}; }
+function condenseRain(){ const l=airborne("h2o");if(!l.length)return;const m=pick(l);m.leaving=true;m.state="raining"; }
+function fadeOutUp(kind){ const l=airborne(kind);if(!l.length)return;const m=pick(l);m.leaving=true;m.state="leaving";m.vy=-0.5; }
+function bornFromSource(kind){ const pt=oceanY()-46-26; const src=algaePos.concat(plantPos.map(p=>({x:p.x,y:pt}))); if(!src.length)return fadeIn(kind); const s=pick(src);const m=newMol(kind,s.x,s.y,"born");const r=restPos();m.bx=r.x;m.by=r.y;m.vy=-1.0;mols.push(m); }
+function swapEvent(){ const co2=airborne("co2"); const srcs=algaePos.concat(STAGES[idx].plants?plantPos.map(p=>({x:p.x,y:oceanY()-46-26})):[]); if(!srcs.length)return; const s=pick(srcs); s.pulse=18; if(s.h!==undefined){const a=algaePos.find(z=>z.x===s.x);if(a)a.pulse=18;} arrows.push({x:s.x,y:s.y-8,a:1});
+  if(co2.length){const m=pick(co2);m.leaving=true;m.state="absorbing";m.target={x:s.x,y:s.y};} else bornFromSource("o2"); }
+
+function reconcile(){
+  const s=STAGES[idx]; const d={}; ["co2","o2","n2","h2o"].forEach(k=>d[k]=airborne(k).length-(s.air[k]||0));
+  if(s.proc==="swap2" && d.co2>0 && d.o2<0){swapEvent();return;}
+  if(s.proc==="swap2" && d.o2<0){swapEvent();return;}
+  if(d.co2>0){ (scene.ocean>0.05?sinkOne("co2"):fadeOutUp("co2")); return; }
+  if(d.o2<0){ bornFromSource("o2"); return; }
+  if(d.h2o>0){ (scene.ocean>0.05?condenseRain():fadeOutUp("h2o")); return; }
+  if(d.n2<0){ fadeIn("n2"); return; }
+  if(d.n2>0){ fadeOutUp("n2"); return; }
+  if(d.co2<0 && volcanoes.length){ emitFromVolcano("co2"); return; }
+  if(d.h2o<0 && !s.globe){ fadeIn("h2o"); return; }
+}
+
+/* UI */
+function buildFlow(){
+  const f=document.getElementById("flow"); f.innerHTML="";
+  STAGES.forEach((s,i)=>{
+    const step=document.createElement("div"); step.className="fstep"; step.onclick=()=>go(i);
+    step.innerHTML=`<span class="num" style="background:${s.col}">${i+1}</span><span class="lab">${s.name}</span>`;
+    f.appendChild(step);
+    if(i<STAGES.length-1){const ar=document.createElement("span");ar.className="farrow";ar.innerHTML="&#10148;";f.appendChild(ar);}
+  });
+}
+function updateUI(){
+  const s=STAGES[idx];
+  const sp=document.getElementById("steppill"); sp.textContent=`Stage ${idx+1} of 4`; sp.style.background=s.col;
+  document.getElementById("capWhat").textContent=s.what;
+  document.getElementById("capWhy").innerHTML=s.why;
+  document.getElementById("mpText").innerHTML=s.mp;
+  document.getElementById("approxnote").textContent=s.approx?"Early percentages are approximate \u2014 read indirectly from rock, not measured.":"Today\u2019s values are measured directly. CO\u2082 is only ~0.04%.";
+  document.querySelectorAll("#flow .fstep").forEach((el,i)=>{
+    const st=STAGES[i]; const on=(i===idx);
+    el.classList.toggle("now",on);
+    el.style.borderColor = on?st.col:"#dbe2e9";
+    el.style.background = on?(st.col+"1a"):"#fff";
+  });
+  document.getElementById("backBtn").disabled=idx===0;
+  document.getElementById("nextBtn").disabled=idx===STAGES.length-1;
+  const unlocked=reached>=STAGES.length-1;
+  document.getElementById("startCfu").disabled=!unlocked;
+  document.getElementById("cfu").classList.toggle("locked",!unlocked);
+  document.getElementById("cfuLockMsg").style.display=unlocked?"none":"block";
+}
+function updateBar(){
+  const s=STAGES[idx]; ["n2","o2","co2","h2o"].forEach(k=>compShown[k]=lerp(compShown[k],s.comp[k],0.05));
+  const tot=compShown.n2+compShown.o2+compShown.co2+compShown.h2o||1;
+  ["n2","o2","co2","h2o"].forEach(k=>{const seg=document.querySelector(`.seg[data-g="${k}"]`);const pct=compShown[k]/tot*100;seg.style.width=pct+"%";let lab=pct>=8?Math.round(compShown[k])+"%":"";if(k==="co2"&&s.comp.co2<1)lab="";seg.textContent=lab;});
+}
+
+/* drawing primitives */
+function atom(x,y,r,c){ctx.fillStyle=c;ctx.beginPath();ctx.arc(x,y,r,0,6.29);ctx.fill();ctx.lineWidth=1;ctx.strokeStyle="rgba(255,255,255,0.30)";ctx.stroke();}
+function drawMol(m){ if(m.alpha<0.02)return; ctx.globalAlpha=Math.min(1,m.alpha); const r=m.r;
+  if(m.kind==="co2"){atom(m.x-r*0.95,m.y,r*0.78,"#c2603a");atom(m.x+r*0.95,m.y,r*0.78,"#c2603a");atom(m.x,m.y,r,"#9c4426");}
+  else if(m.kind==="o2"){atom(m.x-r*0.7,m.y,r*0.85,"#0e9b86");atom(m.x+r*0.7,m.y,r*0.85,"#12b39a");}
+  else if(m.kind==="n2"){atom(m.x-r*0.7,m.y,r*0.85,"#7c8aa0");atom(m.x+r*0.7,m.y,r*0.85,"#8c98ac");}
+  else {atom(m.x,m.y,r*0.95,"#9fc6d8");atom(m.x-r*0.8,m.y-r*0.6,r*0.5,"#cfe6f0");atom(m.x+r*0.8,m.y-r*0.6,r*0.5,"#cfe6f0");}
+  ctx.globalAlpha=1;
+}
+function drawVolcano(v,intensity){ const bw=175*v.s,bh=150*v.s,cx=v.x,topY=GROUND-bh;
+  ctx.fillStyle="#231310"; ctx.beginPath(); ctx.moveTo(cx-bw/2,GROUND); ctx.lineTo(cx-bw*0.10,topY); ctx.lineTo(cx+bw*0.10,topY); ctx.lineTo(cx+bw/2,GROUND); ctx.closePath(); ctx.fill();
+  ctx.globalAlpha=intensity; ctx.strokeStyle="#ff7a1e"; ctx.lineWidth=3;
+  [-0.16,0.04,0.2].forEach(o=>{ctx.beginPath();ctx.moveTo(cx+o*bw*0.3,topY+4);ctx.lineTo(cx+o*bw,GROUND);ctx.stroke();});
+  const g=ctx.createRadialGradient(cx,topY,2,cx,topY,24*v.s); g.addColorStop(0,"#ffe27a");g.addColorStop(.5,"#ff7a1e");g.addColorStop(1,"rgba(255,122,30,0)");
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,topY,24*v.s,0,6.29); ctx.fill(); ctx.globalAlpha=1;
+}
+function drawCloud(x,y,s){ ctx.fillStyle="rgba(228,233,239,0.96)"; [[0,0,1],[-0.55,0.12,0.72],[0.55,0.1,0.76],[-0.28,-0.28,0.72],[0.3,-0.22,0.7]].forEach(([dx,dy,r])=>{ctx.beginPath();ctx.arc(x+dx*44*s,y+dy*44*s,24*s*r,0,6.29);ctx.fill();}); ctx.fillStyle="rgba(176,186,197,0.55)"; ctx.beginPath(); ctx.ellipse(x,y+15*s,50*s,15*s,0,0,6.29); ctx.fill(); }
+function drawSun(x,y){ ctx.strokeStyle="rgba(255,205,70,0.85)"; ctx.lineWidth=4; for(let a=0;a<12;a++){const an=a/12*6.28+frame*0.003;ctx.beginPath();ctx.moveTo(x+Math.cos(an)*38,y+Math.sin(an)*38);ctx.lineTo(x+Math.cos(an)*55,y+Math.sin(an)*55);ctx.stroke();} const g=ctx.createRadialGradient(x,y,4,x,y,34);g.addColorStop(0,"#fff3c4");g.addColorStop(1,"#ffcf3f");ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,30,0,6.29);ctx.fill(); }
+function drawFrond(a){ ctx.strokeStyle="#2f9e54";ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(a.x,Math.min(H,a.y+8)); for(let i=1;i<=5;i++){const yy=a.y-a.h*i/5;const xx=a.x+Math.sin(frame*0.035+i+a.x)*5;ctx.lineTo(xx,yy);} ctx.stroke();
+  ctx.fillStyle="rgba(120,210,150,0.85)"; for(let i=1;i<=2;i++){ctx.beginPath();ctx.arc(a.x+Math.sin(frame*0.035+i)*5,a.y-a.h*(0.7+i*0.1),3,0,6.29);ctx.fill();} }
+function drawPlant(p,baseY){ const sway=Math.sin(frame*0.02+p.x)*2; ctx.strokeStyle="#2f7a3a";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(p.x,baseY);ctx.lineTo(p.x+sway,baseY-30);ctx.stroke(); ctx.fillStyle="#3e9a48"; [[-7,-24],[7,-28],[0,-36]].forEach(([dx,dy])=>{ctx.beginPath();ctx.ellipse(p.x+sway+dx,baseY+dy,8,5,dx*0.1,0,6.29);ctx.fill();}); }
+function drawLandBank(){ const oy=oceanY(), lx=W*0.6, lt=oy-46; const g=ctx.createLinearGradient(0,lt,0,H); g.addColorStop(0,"#4a8a40"); g.addColorStop(1,"#2c5a2a"); ctx.fillStyle=g; ctx.beginPath(); ctx.moveTo(lx,oy+8); ctx.lineTo(lx+46,lt); ctx.lineTo(W,lt); ctx.lineTo(W,H); ctx.lineTo(lx,H); ctx.closePath(); ctx.fill(); return lt; }
+
+function drawGlobe(){
+  const cx=W*0.34, cy=H*0.46, R=H*0.34;
+  // halo
+  const halo=ctx.createRadialGradient(cx,cy,R*0.9,cx,cy,R*1.18); halo.addColorStop(0,"rgba(120,180,235,0.35)");halo.addColorStop(1,"rgba(120,180,235,0)");
+  ctx.fillStyle=halo; ctx.beginPath(); ctx.arc(cx,cy,R*1.18,0,6.29); ctx.fill();
+  // ocean sphere
+  const g=ctx.createRadialGradient(cx-R*0.3,cy-R*0.3,R*0.2,cx,cy,R); g.addColorStop(0,"#3f8fce");g.addColorStop(1,"#11487f");
+  ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,R,0,6.29); ctx.fill();
+  // continents (clipped)
+  ctx.save(); ctx.beginPath(); ctx.arc(cx,cy,R,0,6.29); ctx.clip(); ctx.fillStyle="#4e9a52";
+  [[-0.3,-0.35,0.5,0.4],[0.25,-0.1,0.45,0.55],[-0.15,0.4,0.55,0.35],[0.4,0.45,0.35,0.3]].forEach(([dx,dy,w,h])=>{ctx.beginPath();ctx.ellipse(cx+dx*R,cy+dy*R,w*R*0.5,h*R*0.5,0.3,0,6.29);ctx.fill();});
+  ctx.fillStyle="rgba(210,190,140,0.5)"; ctx.beginPath(); ctx.ellipse(cx+0.28*R,cy-0.08*R,0.18*R,0.26*R,0.2,0,6.29); ctx.fill();
+  ctx.restore();
+  ctx.lineWidth=2; ctx.strokeStyle="rgba(255,255,255,0.25)"; ctx.beginPath(); ctx.arc(cx,cy,R,0,6.29); ctx.stroke();
+  // callouts
+  const calls=[["78%","Nitrogen (N\u2082)","#dbe8f7","#1c3c66"],["21%","Oxygen (O\u2082)","#dcefe2","#1f6b3f"],["0.04%","Carbon dioxide (CO\u2082)","#e7e3f3","#4b3b78"]];
+  const px=W*0.62, pw=W*0.32, ph=88, gap=18; const startY=cy-(ph*1.5+gap);
+  calls.forEach((c,i)=>{ const py=startY+i*(ph+gap);
+    ctx.strokeStyle="#9fb0c2"; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(cx+R*0.78,cy+(i-1)*R*0.5); ctx.lineTo(px,py+ph/2); ctx.stroke();
+    ctx.fillStyle="#9fb0c2"; ctx.beginPath(); ctx.arc(cx+R*0.78,cy+(i-1)*R*0.5,4,0,6.29); ctx.fill();
+    ctx.fillStyle=c[2]; rr(px,py,pw,ph,14); ctx.fill();
+    ctx.fillStyle=c[3]; ctx.font="700 34px Cambria, Georgia, serif"; ctx.textBaseline="middle"; ctx.fillText(c[0],px+20,py+ph*0.38);
+    ctx.font="600 17px Calibri, Arial, sans-serif"; ctx.fillText(c[1],px+20,py+ph*0.74);
+  });
+  ctx.textBaseline="alphabetic";
+}
+
+/* main loop */
+function draw(){
+  frame++; const e=0.08; const s=STAGES[idx];
+  scene.sky0=lerpC(scene.sky0,tgt.sky0,e);scene.sky1=lerpC(scene.sky1,tgt.sky1,e);scene.ground=lerpC(scene.ground,tgt.ground,e);scene.ocean=lerp(scene.ocean,tgt.ocean,e);
+  const oy=oceanY();
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,rgb(scene.sky0));g.addColorStop(1,rgb(scene.sky1));ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+
+  if(s.globe){
+    drawGlobe();
+  } else {
+    if(s.sun) drawSun(W-120,96);
+    if(s.clouds){ [[170,90,1.1],[420,70,0.95],[640,100,1.05],[850,76,0.9]].forEach(c=>drawCloud(c[0],c[1],c[2])); }
+    ctx.fillStyle=rgb(scene.ground); ctx.fillRect(0,GROUND,W,H-GROUND);
+    if(s.volcano>0){ volcanoes.forEach(v=>{ drawVolcano(v,s.volcano); if(frame%6===0&&Math.random()<s.volcano) ash.push({x:v.x+rand(-6,6),y:GROUND-150*v.s,vy:rand(-1.5,-0.9),vx:rand(-.4,.4),a:0.5,r:rand(5,12)}); }); }
+    for(let i=ash.length-1;i>=0;i--){const a=ash[i];a.x+=a.vx;a.y+=a.vy;a.a-=0.006;a.r+=0.15;if(a.a<=0){ash.splice(i,1);continue;}ctx.globalAlpha=a.a*s.volcano;ctx.fillStyle="#5e524c";ctx.beginPath();ctx.arc(a.x,a.y,a.r,0,6.29);ctx.fill();}
+    ctx.globalAlpha=1;
+    if(scene.ocean>0.01){ const og=ctx.createLinearGradient(0,oy,0,H);og.addColorStop(0,"rgba(46,118,158,0.82)");og.addColorStop(1,"rgba(16,54,86,0.95)");ctx.fillStyle=og;ctx.fillRect(0,oy,W,H-oy);
+      ctx.strokeStyle="rgba(200,230,245,0.45)";ctx.lineWidth=2;ctx.beginPath();for(let x=0;x<=W;x+=16){const yy=oy+Math.sin(x*0.035+frame*0.03)*2.6;x===0?ctx.moveTo(x,yy):ctx.lineTo(x,yy);}ctx.stroke(); }
+    if(s.plants){ const lt=drawLandBank(); plantPos.forEach(p=>{ if(p.pulse>0)p.pulse--; drawPlant(p,lt); }); }
+    if(s.algae) algaePos.forEach(a=>{ if(a.pulse>0)a.pulse--; drawFrond(a); });
+    if(s.proc==="cool"){ if(frame%2===0) rain.push({x:rand(0,W),y:rand(60,oy),len:rand(10,18),v:rand(7,11)});
+      for(let i=rain.length-1;i>=0;i--){const d=rain[i];d.y+=d.v;ctx.strokeStyle="rgba(170,205,225,0.55)";ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(d.x,d.y);ctx.lineTo(d.x,d.y+d.len);ctx.stroke();if(d.y>oy)rain.splice(i,1);} }
+    else rain.length=0;
+  }
+
+  // O2 up-arrows (swap flourish)
+  for(let i=arrows.length-1;i>=0;i--){const a=arrows[i];a.y-=1.1;a.a-=0.02;if(a.a<=0){arrows.splice(i,1);continue;}ctx.globalAlpha=a.a;ctx.strokeStyle="#0e9b86";ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(a.x,a.y-14);ctx.moveTo(a.x-5,a.y-9);ctx.lineTo(a.x,a.y-14);ctx.lineTo(a.x+5,a.y-9);ctx.stroke();ctx.globalAlpha=1;}
+
+  // molecules
+  mols.forEach(m=>{
+    m.alpha=lerp(m.alpha,(m.leaving&&m.state==="leaving")?0:0.95,0.06);
+    if(m.state==="drift"){ m.x+=(m.bx-m.x)*0.015+Math.sin(frame*0.01+m.ph)*0.35; m.y+=(m.by-m.y)*0.015+Math.cos(frame*0.012+m.ph)*0.28; }
+    else if(m.state==="emitting"||m.state==="born"){ m.x+=m.vx;m.y+=m.vy;m.vy*=0.97; if(m.y<=m.by)m.state="drift"; }
+    else if(m.state==="leaving"){ m.y+=m.vy;m.vy-=0.02; if(m.alpha<0.03)m.dead=true; }
+    else if(m.state==="sinking"){ m.x+=(m.target.x-m.x)*0.05;m.y+=(m.target.y-m.y)*0.05; if(Math.abs(m.y-m.target.y)<6){m.alpha-=0.06;if(m.alpha<0.05)m.dead=true;} }
+    else if(m.state==="raining"){ m.y+=9;m.x+=Math.sin(m.y*0.1)*0.4; if(m.y>=oceanY())m.dead=true; }
+    else if(m.state==="absorbing"){ m.x+=(m.target.x-m.x)*0.06;m.y+=(m.target.y-m.y)*0.06; if(Math.abs(m.x-m.target.x)<8&&Math.abs(m.y-m.target.y)<8){m.dead=true;bornFromSource("o2");} }
+    if(!m.dead) drawMol(m);
+  });
+  for(let i=mols.length-1;i>=0;i--) if(mols[i].dead) mols.splice(i,1);
+
+  if(frame%24===0) reconcile();
+  if(s.proc==="emit" && frame%9===0 && airborne("co2").length<s.air.co2) emitFromVolcano(pick(["co2","co2","h2o","n2"]));
+  if(s.proc==="swap2" && frame%20===0) swapEvent();
+
+  updateBar();
+  requestAnimationFrame(draw);
+}
+
+/* nav */
+function go(n){ idx=Math.max(0,Math.min(STAGES.length-1,n)); reached=Math.max(reached,idx); applyStage(true); }
+document.getElementById("nextBtn").onclick=()=>go(idx+1);
+document.getElementById("backBtn").onclick=()=>go(idx-1);
+document.getElementById("restartBtn").onclick=()=>{idx=0;applyStage(false);};
+document.addEventListener("keydown",e=>{if(e.key==="ArrowRight")go(idx+1);if(e.key==="ArrowLeft")go(idx-1);});
+
+/* CFU */
+const QUESTIONS=[
+  { q:"What caused the amount of oxygen in the air to increase?",
+    opts:[["Volcanoes erupting and releasing oxygen","No \u2014 volcanoes released CO\u2082, water vapour and nitrogen, not oxygen."],
+      ["Algae, and later plants, photosynthesising","Yes \u2014 photosynthesis used CO\u2082 and released O\u2082. It is the source of all the oxygen in our air."],
+      ["The oceans cooling down and releasing oxygen","No \u2014 cooling formed the oceans, but it didn't make oxygen."],
+      ["Humans breathing out oxygen","No \u2014 we breathe oxygen in and CO\u2082 out, and this happened long before humans."]], correct:1 },
+  { q:"Why did the amount of carbon dioxide in the air fall over time?",
+    opts:[["It was destroyed by the heat of the volcanoes","No \u2014 CO\u2082 wasn't destroyed; it was moved out of the air into other stores."],
+      ["It floated off into space","No \u2014 gravity holds the atmosphere to Earth; the CO\u2082 didn't escape."],
+      ["It dissolved into the oceans and was used by photosynthesis","Yes \u2014 two routes: the oceans dissolved huge amounts, and algae/plants used it up."],
+      ["It turned into nitrogen","No \u2014 one gas doesn't turn into another like that. CO\u2082 was removed, not converted."]], correct:2 },
+  { q:"Nitrogen is now the most common gas in the air. Why?",
+    opts:[["Volcanoes keep pumping out huge amounts of it","No \u2014 some came from volcanoes early on, but that's not why it dominates now."],
+      ["Plants release nitrogen when they photosynthesise","No \u2014 photosynthesis releases oxygen, not nitrogen."],
+      ["It is unreactive, so almost nothing removes it \u2014 it built up","Yes \u2014 nitrogen wasn't 'made'; other gases were removed around it, so it was left behind."],
+      ["It was made when oxygen reacted with carbon dioxide","No \u2014 there is no such reaction."]], correct:2 },
+  { q:"True or false: this whole change was caused mainly by humans burning fossil fuels.",
+    opts:[["True","Careful \u2014 this is the ancient, natural story (volcanoes, then algae and plants) over billions of years."],
+      ["False \u2014 it was natural, over billions of years","Correct, and key for the exam. Humans burning fossil fuels is a separate, modern story."]], correct:1 }
+];
+let qi=0,sc=0,answered=false;
+function showQ(){answered=false;const Q=QUESTIONS[qi];document.getElementById("qcount").textContent=`Question ${qi+1} of ${QUESTIONS.length}`;document.getElementById("qtext").innerHTML=Q.q;document.getElementById("fb").className="fb";document.getElementById("nextQ").style.display="none";document.getElementById("score").textContent=`Score: ${sc} / ${QUESTIONS.length}`;const o=document.getElementById("opts");o.innerHTML="";const keys=["A","B","C","D"];Q.opts.forEach((opt,i)=>{const d=document.createElement("button");d.className="opt";d.innerHTML=`<span class="key">${keys[i]}</span><span>${opt[0]}</span>`;d.onclick=()=>choose(i);o.appendChild(d);});}
+function choose(i){if(answered)return;answered=true;const Q=QUESTIONS[qi];const all=document.querySelectorAll("#opts .opt");all.forEach(o=>o.classList.add("disabled"));const right=(i===Q.correct);if(right)sc++;all[i].classList.add(right?"correct":"wrong");if(!right)all[Q.correct].classList.add("correct");const fb=document.getElementById("fb");fb.className="fb show "+(right?"right":"miss");fb.innerHTML=`<b>${right?"Correct.":"Not quite."}</b> ${Q.opts[i][1]}`+(right?"":`<br><br><b>Why ${["A","B","C","D"][Q.correct]} is right:</b> ${Q.opts[Q.correct][1]}`);document.getElementById("score").textContent=`Score: ${sc} / ${QUESTIONS.length}`;const nq=document.getElementById("nextQ");nq.style.display="inline-block";nq.textContent=qi<QUESTIONS.length-1?"Next question \u25B6":"See result \u25B6";}
+document.getElementById("startCfu").onclick=()=>{qi=0;sc=0;document.getElementById("cfuIntro").style.display="none";document.getElementById("cfuEnd").style.display="none";document.getElementById("cfuBody").style.display="block";showQ();document.getElementById("cfu").scrollIntoView({behavior:"smooth"});};
+document.getElementById("nextQ").onclick=()=>{if(qi<QUESTIONS.length-1){qi++;showQ();}else{document.getElementById("cfuBody").style.display="none";document.getElementById("cfuEnd").style.display="block";const msg=sc===4?"Spot on across the board.":sc>=2?"Good \u2014 worth revisiting the ones you missed.":"Let\u2019s step back through the stages together.";document.getElementById("recapText").innerHTML=`<b>The story in one line:</b> volcanoes gave a CO\u2082-rich early air; the oceans and then photosynthesis removed CO\u2082 and added O\u2082; unreactive nitrogen was left behind to dominate \u2014 all naturally, over billions of years.`;document.getElementById("finalScore").textContent=`You scored ${sc} / ${QUESTIONS.length}. ${msg}`;}};
+document.getElementById("retryCfu").onclick=()=>document.getElementById("startCfu").click();
+
+/* init */
+buildFlow(); applyStage(false); draw();
+</script>
+</body>
+</html>
